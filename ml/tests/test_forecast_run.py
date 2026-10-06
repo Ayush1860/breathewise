@@ -48,3 +48,49 @@ def test_failing_station_keeps_previous_forecast(store):
     summary = run_forecast(later, stations, store, cams_for=broken)
     assert summary == {stations[0].station_id: None}
     assert store.current_forecast(stations[0].station_id).issued_at == ISSUED
+
+
+def _weather(lat, lon):
+    from ingest.openmeteo import WeatherHour
+
+    return [
+        WeatherHour(ISSUED + timedelta(hours=h), 25.0, 50.0, 3.0, 270.0, 400.0, 0.0, 990.0)
+        for h in range(-48, 25)
+    ]
+
+
+class FakeModel:
+    model_version = "lgbm-fake"
+    station_codes = {s.station_id: i for i, s in enumerate(load_stations())}
+
+    def __init__(self, fail=False):
+        self.fail = fail
+
+
+def test_model_used_when_available(store, monkeypatch):
+    from ml import forecast_run
+
+    def fake_model_forecast(model, station_id, code, issued, obs, weather, cams_hours):
+        doc = forecast_run.baseline_forecast(station_id, issued, obs, cams_hours)
+        return doc.model_copy(update={"model_version": model.model_version})
+
+    monkeypatch.setattr(forecast_run, "model_forecast", fake_model_forecast)
+    stations = load_stations()[:1]
+    summary = run_forecast(
+        NOW, stations, store, cams_for=cams, weather_for=_weather, model=FakeModel()
+    )
+    assert summary == {stations[0].station_id: "lgbm-fake"}
+
+
+def test_model_failure_falls_back_to_baseline(store, monkeypatch):
+    from ml import forecast_run
+
+    def broken(*args, **kwargs):
+        raise ValueError("live weather forecast does not reach t+12")
+
+    monkeypatch.setattr(forecast_run, "model_forecast", broken)
+    stations = load_stations()[:1]
+    summary = run_forecast(
+        NOW, stations, store, cams_for=cams, weather_for=_weather, model=FakeModel()
+    )
+    assert summary == {stations[0].station_id: MODEL_VERSION}

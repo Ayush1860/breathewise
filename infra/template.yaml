@@ -103,6 +103,9 @@ Resources:
     Properties:
       Handler: ml.handler.handler
       MemorySize: 1024
+      Environment:
+        Variables:
+          MODEL_DIR: /var/task/model
       Layers:
         - !Ref MlLayer
       Policies:
