@@ -15,7 +15,9 @@
 - Python `>=3.12,<3.13`, managed with `uv`. `uv.lock` is committed.
 - No committed file, commit message, branch name or PR text may mention the AI assistant or its vendor. Assistant-specific local files are excluded through `.git/info/exclude`, never through `.gitignore`.
 - No AI co-author trailers. Conventional Commits only.
-- Branch for this phase: `as/repo-scaffold`. Never push to `main` directly, except the bootstrap push of the existing spec and plan commits (Task 6), which happens before branch protection exists.
+- Branch for this phase: `as/repo-scaffold`. Never push to `main` directly. The one exception is the bootstrap push of the spec and plan commits (Task 6 Step 1), which happens before branch protection exists. Task 1's commits stay on the branch.
+- Merge strategy: rebase-merge only (`gh pr merge --rebase --delete-branch`).
+- Member B's GitHub handle is written as `@MEMBER_B` below. Replace it with the real handle supplied by the user before running any step that uses it.
 - All datetimes in the contract are timezone-aware UTC and serialise with a trailing `Z`.
 - Every response has `generated_at`. Every data payload has a `source` or `model_version`, an `observed_at` or `issued_at`, and `stale` with `age_minutes`.
 - Secrets live only in `.env`, which is git-ignored. `.env.example` is committed with empty values.
@@ -31,6 +33,10 @@
 5. **A forecast with missing or out-of-order horizons.** Expected: rejected, because the best-window finder and the chart assume exactly h=1…12 in order. (Task 2)
 
 ---
+
+## Execution order
+
+Task 0 → Task 1 → Task 6 Steps 1–3 (public repo, push, labels, repo settings, invite B) → Tasks 2–5 → Task 6 Steps 4–9.
 
 ## File map
 
@@ -55,21 +61,16 @@
 
 **Files:** `.git/config` and `.git/info/exclude` (both local only, never committed).
 
-- [ ] **Step 1: Confirm the commit email with the user.** It must be an email verified on GitHub account `Ayush1860`. The current global value is `ayushsuryawanshi9@gmail.com`. Set it for this repo only:
+- [ ] **Step 1: Pin the commit identity.** The user confirmed `ayushsuryawanshi9@gmail.com`. Pin it for this repo:
 
 ```bash
-git config user.name "Ayush Suryawanshi"
-git config user.email "<verified email confirmed by user>"
-```
-
-- [ ] **Step 2: If the email changed, re-author the existing unpushed commits:**
-
-```bash
-git rebase --root --exec "git commit --amend --no-edit --reset-author"
+git config user.email "ayushsuryawanshi9@gmail.com"
 git log --format="%h %an <%ae> %s"
 ```
 
-Expected: every commit shows the confirmed name and email.
+Expected: every existing commit already shows `ayushsuryawanshi9@gmail.com`.
+
+- [ ] **Step 2: Do not re-author anything.** The identity is unchanged.
 
 - [ ] **Step 3: Exclude the assistant's local instruction file and its local settings directory.** Add their names to `.git/info/exclude`. The names are recorded in the operator's local notes, not in this repo. Verify with `git status --ignored`.
 
@@ -632,6 +633,9 @@ class BestWindow(Model):
 class AdviceResponse(Model):
     generated_at: AwareDatetime
     station_id: str
+    profile: Profile
+    activity: Activity
+    duration_h: int = Field(ge=1, le=12)
     forecast_issued_at: AwareDatetime
     model_version: str
     stale: bool
@@ -796,7 +800,7 @@ git commit -m "feat(backend): define API contract schemas"
   - `FIXTURE_DIR: Path`
   - `build_fixtures() -> dict[str, BaseModel]`, which returns a mapping from a path relative to `docs/fixtures` to a model
   - `dump(model: BaseModel) -> str`
-  - Fixture filenames, used by Task 4: `stations.json`, `aqi_current.{fresh,stale,insufficient_data,cams_fallback}.json`, `aqi_forecast.json`, `aqi_forecast.stale.json`, `advice.json`, `scoreboard.json`, `metrics.json`, `refresh.accepted.json`, `refresh.rate_limited.json`, `health.json`, `replay/example.json`
+  - Fixture filenames, used by Task 4: `stations.json`, `aqi_current.{fresh,stale,insufficient_data,cams_fallback}.json`, `aqi_forecast.json`, `aqi_forecast.stale.json`, `advice.{go,go_with_n95,avoid,reduce_exposure}.json`, `scoreboard.json`, `metrics.json`, `refresh.accepted.json`, `refresh.rate_limited.json`, `health.json`, `replay/example.json`
   - The string keys `explain.{rising,falling}.{ventilation,recent_buildup,regional_pollution,time_of_day}`, `reason.*`, `advice.*`, `refresh.*`. Phase 3's `strings.yaml` must keep these keys.
 
 - [ ] **Step 1: Write the failing tests** in `backend/tests/test_fixtures.py`:
@@ -812,7 +816,10 @@ REQUIRED = {
     "aqi_current.cams_fallback.json",
     "aqi_forecast.json",
     "aqi_forecast.stale.json",
-    "advice.json",
+    "advice.go.json",
+    "advice.go_with_n95.json",
+    "advice.avoid.json",
+    "advice.reduce_exposure.json",
     "scoreboard.json",
     "metrics.json",
     "refresh.accepted.json",
@@ -844,6 +851,21 @@ def test_stale_fixtures_are_flagged_stale():
     assert fixtures["aqi_current.stale.json"].stale is True
     assert fixtures["aqi_forecast.stale.json"].stale is True
     assert fixtures["aqi_current.fresh.json"].stale is False
+
+
+def test_advice_fixtures_cover_every_verdict():
+    fixtures = build_fixtures()
+    expected = {
+        "advice.go.json": ("GO", "healthy_adult", "q50"),
+        "advice.go_with_n95.json": ("GO_WITH_N95", "healthy_adult", "q50"),
+        "advice.avoid.json": ("AVOID", "respiratory", "q90"),
+        "advice.reduce_exposure.json": ("REDUCE_EXPOSURE", "outdoor_worker", "q50"),
+    }
+    for name, (verdict, profile, basis) in expected.items():
+        advice = fixtures[name]
+        assert advice.verdict.value == verdict, name
+        assert advice.basis == basis, name
+        assert advice.profile.value == profile, name
 
 
 def test_scoreboard_mae_ignores_missing_actuals():
@@ -982,10 +1004,20 @@ TEXT = {
     "the usual daytime pattern at this location.",
     "explain.rising.time_of_day": "The model expects {pollutant} to rise, mainly because of "
     "the usual evening pattern at this location.",
+    "reason.general.satisfactory": "Air quality is {band}. Normal outdoor activity is fine.",
+    "reason.exertion.moderately_polluted": "Air quality is {band}. Hard exercise makes you "
+    "breathe in much more air, and more pollution with it.",
     "reason.sensitive.very_poor": "Air quality is {band}. People with {condition} are more "
     "affected at this level.",
+    "reason.outdoor_worker.very_poor": "Air quality is {band}. Over a long outdoor shift, "
+    "exposure at this level adds up.",
+    "advice.go_ahead": "Go ahead. Conditions are fine for this activity.",
+    "advice.wear_n95": "Wear a well-fitted N95 mask.",
+    "advice.lower_intensity": "Consider a lighter pace or a shorter session.",
     "advice.stay_indoors": "Stay indoors and keep windows closed during peak hours.",
     "advice.n95_if_must": "If you must go out, wear a well-fitted N95 mask.",
+    "advice.n95_on_shift": "Wear a well-fitted N95 mask throughout the shift.",
+    "advice.indoor_breaks": "Take regular breaks indoors or in a cleaner space.",
     "advice.use_best_window": "Plan your {activity} for {start}-{end} IST, when air is "
     "expected to be cleanest.",
     "refresh.accepted": "Refresh started. New data in about a minute.",
@@ -1129,7 +1161,9 @@ def _current(
     )
 
 
-def _best_window(hours: list[ForecastHour], duration: int, use_q90: bool) -> BestWindow:
+def _best_window(
+    hours: list[ForecastHour], duration: int, use_q90: bool, now_index: int
+) -> BestWindow:
     values = [h.index.q90 if use_q90 else h.index.q50 for h in hours]
     starts = range(len(values) - duration + 1)
     best = min(starts, key=lambda i: (max(values[i : i + duration]), i))
@@ -1139,29 +1173,69 @@ def _best_window(hours: list[ForecastHour], duration: int, use_q90: bool) -> Bes
         end=hours[best + duration - 1].target_time + timedelta(hours=1),
         worst_index=worst,
         band=_band(worst),
-        improves_on_now=worst < _pm_index(CURRENT_PM25, CURRENT_PM10),
+        improves_on_now=worst < now_index,
     )
 
 
-def _advice() -> AdviceResponse:
+# _SENSITIVE and _fixture_verdict are defined further down; they are only used at call time.
+# (scenario name) -> (profile, activity, duration_h, now_index, reason key, reason params,
+#                     advice keys)
+_ADVICE_SCENARIOS: dict[str, tuple] = {
+    "go": (
+        Profile.HEALTHY_ADULT, Activity.WALK, 1, 85,
+        "reason.general.satisfactory", {"band": "Satisfactory"},
+        ["advice.go_ahead"],
+    ),
+    "go_with_n95": (
+        Profile.HEALTHY_ADULT, Activity.RUN_EXERCISE, 1, 160,
+        "reason.exertion.moderately_polluted", {"band": "Moderately Polluted"},
+        ["advice.wear_n95", "advice.lower_intensity"],
+    ),
+    "avoid": (
+        Profile.RESPIRATORY, Activity.WALK, 2, 348,
+        "reason.sensitive.very_poor",
+        {"band": "Very Poor", "condition": "respiratory conditions"},
+        ["advice.stay_indoors", "advice.n95_if_must"],
+    ),
+    "reduce_exposure": (
+        Profile.OUTDOOR_WORKER, Activity.OUTDOOR_WORK_SHIFT, 8, 348,
+        "reason.outdoor_worker.very_poor", {"band": "Very Poor"},
+        ["advice.n95_on_shift", "advice.indoor_breaks"],
+    ),
+}
+
+
+def _advice(scenario: str) -> AdviceResponse:
+    profile, activity, duration, now_index, reason_key, reason_params, advice_keys = (
+        _ADVICE_SCENARIOS[scenario]
+    )
+    use_q90 = profile in _SENSITIVE
     hours = _forecast_hours(ISSUED_AT, PM25_Q50, CURRENT_PM25)
-    window = _best_window(hours, duration=2, use_q90=True)
+    window = _best_window(hours, duration, use_q90, now_index)
+    advice = [_msg(key) for key in advice_keys]
+    if window.improves_on_now:
+        advice.append(
+            _msg(
+                "advice.use_best_window",
+                activity=activity.value.replace("_", " "),
+                start=_ist(window.start),
+                end=_ist(window.end),
+            )
+        )
     return AdviceResponse(
         generated_at=GENERATED_AT,
         station_id=VENUE.station_id,
+        profile=profile,
+        activity=activity,
+        duration_h=duration,
         forecast_issued_at=ISSUED_AT,
         model_version=MODEL_VERSION,
         stale=False,
         age_minutes=_age(ISSUED_AT),
-        verdict=Verdict.AVOID,
-        reason=_msg("reason.sensitive.very_poor", band="Very Poor", condition="respiratory conditions"),
-        advice=[
-            _msg("advice.stay_indoors"),
-            _msg("advice.n95_if_must"),
-            _msg("advice.use_best_window", activity="walk", start=_ist(window.start),
-                 end=_ist(window.end)),
-        ],
-        basis="q90",
+        verdict=_fixture_verdict(now_index, profile, activity),
+        reason=_msg(reason_key, **reason_params),
+        advice=advice,
+        basis="q90" if use_q90 else "q50",
         best_window=window,
     )
 
@@ -1318,7 +1392,7 @@ def build_fixtures() -> dict[str, BaseModel]:
         "aqi_current.cams_fallback.json": _current(Source.CAMS_MODEL, OBSERVED_AT),
         "aqi_forecast.json": _forecast(ISSUED_AT, stale=False),
         "aqi_forecast.stale.json": _forecast(ISSUED_AT - timedelta(hours=3), stale=True),
-        "advice.json": _advice(),
+        **{f"advice.{name}.json": _advice(name) for name in _ADVICE_SCENARIOS},
         "scoreboard.json": _scoreboard(),
         "metrics.json": _metrics(),
         "refresh.accepted.json": RefreshResponse(accepted=True, message=_msg("refresh.accepted")),
@@ -1354,14 +1428,16 @@ uv run python -m backend.scripts.make_fixtures
 uv run pytest -q
 ```
 
-Expected: 14 `wrote docs/fixtures/...` lines; all tests pass.
+Expected: 17 `wrote docs/fixtures/...` lines; all tests pass.
 
 - [ ] **Step 5: Spot-check realism.** Open `docs/fixtures/aqi_forecast.json` and check:
-  - h1 `index.q50` is in the high 300s (`very_poor`);
+  - h1 `band` is `very_poor`;
   - the minimum falls around h8 in the `poor` band;
   - `drivers.ventilation` is negative while PM falls.
 
-Open `docs/fixtures/advice.json` and check that `best_window` is 2 h long and lies in the afternoon IST.
+Open `docs/fixtures/advice.avoid.json` and check that `best_window` is 2 h long, lies in the afternoon IST, and that `improves_on_now` is `true`.
+
+Open `docs/fixtures/advice.go.json` and check that `improves_on_now` is `false`; this is the "now is already fine" state.
 
 - [ ] **Step 6: Write `docs/fixtures/README.md`:**
 
@@ -1383,7 +1459,10 @@ illustrative until real stations are chosen.
 | `aqi_current.cams_fallback.json` | `GET /aqi/current` | all stations down, modelled estimate |
 | `aqi_forecast.json` | `GET /aqi/forecast` | fresh |
 | `aqi_forecast.stale.json` | `GET /aqi/forecast` | stale (3 h old) |
-| `advice.json` | `POST /advice` | respiratory + walk, 2 h |
+| `advice.go.json` | `POST /advice` | healthy_adult + walk, GO |
+| `advice.go_with_n95.json` | `POST /advice` | healthy_adult + run_exercise, GO_WITH_N95 |
+| `advice.avoid.json` | `POST /advice` | respiratory + walk, AVOID (default) |
+| `advice.reduce_exposure.json` | `POST /advice` | outdoor_worker + outdoor_work_shift, REDUCE_EXPOSURE |
 | `scoreboard.json` | `GET /scoreboard` | 24 h, latest actual missing |
 | `metrics.json` | `GET /metrics` | test-window metrics |
 | `refresh.accepted.json` | `POST /refresh` | 202 |
@@ -1395,8 +1474,17 @@ illustrative until real stations are chosen.
 
     uv run uvicorn backend.app:app --reload
 
-Send `X-Mock-Scenario: stale | insufficient_data | cams_fallback | rate_limited` to get the
-matching variant; anything else returns the default.
+Send an `X-Mock-Scenario` header to get a variant; anything else returns the default.
+
+| Endpoint | Scenarios |
+|---|---|
+| `GET /aqi/current` | `stale`, `insufficient_data`, `cams_fallback` |
+| `GET /aqi/forecast` | `stale` |
+| `POST /advice` | `go`, `go_with_n95`, `avoid` (default), `reduce_exposure` |
+| `POST /refresh` | `rate_limited` |
+
+In mock mode `POST /advice` returns the scenario fixture regardless of the request body.
+Advice fixtures are independent scenarios: their reason band is not tied to `aqi_current`.
 ```
 
 - [ ] **Step 7: Commit:**
@@ -1462,6 +1550,21 @@ def test_advice_returns_verdict():
     response = client.post("/advice", json=body)
     assert response.status_code == 200
     assert response.json()["verdict"] in {v.value for v in Verdict}
+
+
+@pytest.mark.parametrize(
+    "scenario,verdict",
+    [
+        ("go", "GO"),
+        ("go_with_n95", "GO_WITH_N95"),
+        ("avoid", "AVOID"),
+        ("reduce_exposure", "REDUCE_EXPOSURE"),
+    ],
+)
+def test_advice_scenario_header_selects_verdict(scenario, verdict):
+    body = {"profile": "healthy_adult", "activity": "walk", "duration_h": 1}
+    response = client.post("/advice", json=body, headers={"X-Mock-Scenario": scenario})
+    assert response.json()["verdict"] == verdict
 
 
 def test_advice_rejects_duration_over_12h():
@@ -1530,7 +1633,13 @@ _FILES: dict[str, dict[str, tuple[str, type[BaseModel]]]] = {
         "default": ("aqi_forecast.json", ForecastResponse),
         "stale": ("aqi_forecast.stale.json", ForecastResponse),
     },
-    "advice": {"default": ("advice.json", AdviceResponse)},
+    "advice": {
+        "default": ("advice.avoid.json", AdviceResponse),
+        "go": ("advice.go.json", AdviceResponse),
+        "go_with_n95": ("advice.go_with_n95.json", AdviceResponse),
+        "avoid": ("advice.avoid.json", AdviceResponse),
+        "reduce_exposure": ("advice.reduce_exposure.json", AdviceResponse),
+    },
     "scoreboard": {"default": ("scoreboard.json", ScoreboardResponse)},
     "metrics": {"default": ("metrics.json", MetricsResponse)},
     "health": {"default": ("health.json", HealthResponse)},
@@ -1745,6 +1854,17 @@ jobs:
       - name: No env files tracked
         run: "! git ls-files | grep -E '(^|/)\\.env$'"
 
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   infra:
     name: infra
     runs-on: ubuntu-latest
@@ -1791,11 +1911,14 @@ jobs:
 - [ ] **Step 2: Write `.github/CODEOWNERS`:**
 
 ```text
-# Default owner for core system: data, ML, infra, backend, docs
-*                @Ayush1860
+# Core system: data, ML, infra, API, docs
+*                       @Ayush1860
 
-# Frontend is owned by member B; add their handle here when they join the repo.
-/frontend/       @Ayush1860
+# Member B
+/frontend/              @MEMBER_B
+/backend/advisory.py    @MEMBER_B
+/backend/rules.yaml     @MEMBER_B
+/backend/strings.yaml   @MEMBER_B
 ```
 
 - [ ] **Step 3: Write `.github/pull_request_template.md`:**
@@ -1885,8 +2008,8 @@ uv run uvicorn backend.app:app --reload   # mock API on fixtures
 
 | Member | GitHub | Owns |
 |---|---|---|
-| Ayush Suryawanshi | [@Ayush1860](https://github.com/Ayush1860) | Data, ML, AWS infra, API, advisory engine |
-| Member B | joining | Frontend |
+| Ayush Suryawanshi | [@Ayush1860](https://github.com/Ayush1860) | Data, ML, AWS infra, API, replay/scoreboard/accuracy views |
+| Member B | [@MEMBER_B](https://github.com/MEMBER_B) | Frontend, advisory engine (rules, strings, best window) |
 ````
 
 - [ ] **Step 6: Write `CONTRIBUTING.md`:**
@@ -1907,8 +2030,9 @@ uv run uvicorn backend.app:app --reload   # mock API on fixtures
   (e.g. `as/ml-lightgbm-v1`). Use `git worktree` for parallel branches.
 - Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `test:`, `refactor:`).
   `Co-authored-by:` only for genuine pair work between team members.
-- `main` is protected: PR + green CI (+ 1 approval from the other member once both are
-  collaborators). No direct pushes.
+- `main` is protected: PR + green CI + 1 approval from the other member. No direct pushes.
+- Merge with **rebase** only (`gh pr merge --rebase --delete-branch`), so each member's
+  commits keep their author on `main`.
 - PR description must include verification evidence (test output, curl, logs).
 - Test-first for `naqi.py`, `advisory.py`, the best-window finder, feature engineering and
   API handlers.
@@ -1965,77 +2089,99 @@ git commit -m "chore: add CI, CODEOWNERS, templates and contributor docs"
 
 ---
 
-### Task 6: Publish to GitHub (requires explicit user approval at each marked step)
+### Task 6: Publish to GitHub
+
+Steps 1–3 run right after Task 1. The user approved creating a public repo, pushing, adding labels and inviting B. Steps 4–8 run after Task 5.
 
 **Interfaces:**
-- Consumes: the CI check named `python` (Task 5).
+- Consumes: the CI checks named `python` and `gitleaks` (Task 5).
 - Produces:
-  - The remote `origin` at `github.com/Ayush1860/breathewise`.
-  - Protected `main`.
+  - The public repo `github.com/Ayush1860/breathewise`, with rebase-merge only, secret scanning and push protection.
   - Labels.
-  - Issues for every remaining phase.
-  - The PR for `as/repo-scaffold`.
+  - B invited as a collaborator.
+  - Protected `main`.
+  - Issues.
+  - The Phase 1 PR.
 
-- [ ] **Step 1: ⚠ Ask the user** to confirm the repo name `breathewise` and **public** visibility. Branch protection is not available on private repos on the GitHub Free plan. Then run:
+- [ ] **Step 1: Create the public repo and push only the docs commits on `main`:**
 
 ```bash
 gh auth status
-git switch main
-gh repo create Ayush1860/breathewise --public --source . --remote origin --description "Explainable, personalised air-quality decisions for Delhi"
+gh repo create Ayush1860/breathewise --public --description "Explainable, personalised air-quality decisions for Delhi"
+git remote add origin https://github.com/Ayush1860/breathewise.git
 git push -u origin main
 ```
 
-Expected: `main` on GitHub contains only the spec and plan commits.
+Expected: `main` on GitHub has only the spec and plan commits. `as/repo-scaffold` stays local.
 
-- [ ] **Step 2: ⚠ After approval, create the labels:**
+- [ ] **Step 2: Labels and repo settings.** Allow rebase-merge only, delete branches on merge, and enable secret scanning with push protection:
 
 ```bash
 for l in ml data infra backend frontend ux demo; do gh label create "$l" --repo Ayush1860/breathewise --force; done
+gh repo edit Ayush1860/breathewise --enable-rebase-merge --enable-squash-merge=false --enable-merge-commit=false --delete-branch-on-merge
+gh api -X PATCH repos/Ayush1860/breathewise --input - <<'JSON'
+{"security_and_analysis": {"secret_scanning": {"status": "enabled"},
+                           "secret_scanning_push_protection": {"status": "enabled"}}}
+JSON
+gh api repos/Ayush1860/breathewise --jq '{rebase: .allow_rebase_merge, squash: .allow_squash_merge, merge: .allow_merge_commit, ss: .security_and_analysis.secret_scanning.status, pp: .security_and_analysis.secret_scanning_push_protection.status}'
 ```
 
-- [ ] **Step 3: ⚠ After approval, protect `main`.** Require PRs and the `python` check, with no required approval until B joins, and enforce the rules for admins too:
+Expected: `{"merge":false,"pp":"enabled","rebase":true,"squash":false,"ss":"enabled"}`.
+
+- [ ] **Step 3: Invite Member B** (handle supplied by the user):
 
 ```bash
-gh api -X PUT repos/Ayush1860/breathewise/branches/main/protection --input - <<'EOF'
+gh api -X PUT repos/Ayush1860/breathewise/collaborators/MEMBER_B -f permission=push
+```
+
+- [ ] **Step 4: Protect `main`** (after Task 5's CI is on the branch). Require PRs, the `python` and `gitleaks` checks, 0 approvals for now, and enforce the rules for admins too:
+
+```bash
+gh api -X PUT repos/Ayush1860/breathewise/branches/main/protection --input - <<'JSON'
 {
-  "required_status_checks": {"strict": true, "contexts": ["python"]},
+  "required_status_checks": {"strict": true, "contexts": ["python", "gitleaks"]},
   "enforce_admins": true,
   "required_pull_request_reviews": {"required_approving_review_count": 0},
   "restrictions": null,
   "allow_force_pushes": false,
   "allow_deletions": false
 }
-EOF
-```
-
-Verify with:
-
-```bash
+JSON
 gh api repos/Ayush1860/breathewise/branches/main/protection --jq '.required_status_checks.contexts'
 ```
 
-Expected: `["python"]`.
+Expected: `["python","gitleaks"]`.
 
-- [ ] **Step 4: ⚠ After approval, create the issues** (assignee `Ayush1860`):
+- [ ] **Step 5: Create the issues.** Use one command per row:
 
-| Title | Labels |
-|---|---|
-| Scaffold repo, CI and API contract (Phase 1) | backend |
-| Sample sources (G3) and choose Delhi stations by coverage | data |
-| naqi.py with CPCB breakpoint cross-check | backend |
-| Lambda packaging probe for lightgbm (G1) | infra, ml |
-| SAM stack: ingest Lambda, DynamoDB, S3, scheduler, baseline forecast | infra |
-| Archived forecast vs reanalysis check (G2) | ml, data |
-| LightGBM v1 with quantiles, TreeSHAP groups and metrics | ml |
-| advisory.py, rules, strings and best-window finder | backend |
-| API on DynamoDB behind CloudFront with refresh and health | backend, infra |
-| UI_HANDOFF.md (due Thu 12:00 IST) | ux, demo |
-| Replay episode export | ml, demo |
-| Failure simulation, smoke load test, warm-up toggle | demo, infra |
+```bash
+gh issue create --repo Ayush1860/breathewise --assignee <assignee> --label <labels> --title "<title>" --body "<Goal + Done when, from the spec section>"
+```
 
-Use one `gh issue create --repo Ayush1860/breathewise --assignee Ayush1860 --label <labels> --title "<title>" --body "<Goal / Done when from spec section>"` per row.
+| Title | Labels | Assignee |
+|---|---|---|
+| Scaffold repo, CI and API contract (Phase 1) | backend | Ayush1860 |
+| Sample sources (G3) and choose Delhi stations by coverage | data | Ayush1860 |
+| naqi.py with CPCB breakpoint cross-check | backend | Ayush1860 |
+| Lambda packaging probe for lightgbm (G1) | infra, ml | Ayush1860 |
+| SAM stack: ingest Lambda, DynamoDB, S3, scheduler, baseline forecast | infra | Ayush1860 |
+| Archived forecast vs reanalysis check (G2) | ml, data | Ayush1860 |
+| LightGBM v1 with quantiles, TreeSHAP groups and metrics | ml | Ayush1860 |
+| advisory.py, rules, strings and best-window finder | backend | MEMBER_B |
+| API on DynamoDB behind CloudFront with refresh and health | backend, infra | Ayush1860 |
+| UI_HANDOFF.md (due Thu 12:00 IST) | ux, demo | Ayush1860 |
+| Replay episode export | ml, demo | Ayush1860 |
+| Failure simulation, smoke load test, warm-up toggle | demo, infra | Ayush1860 |
+| UI: design direction and foundations | frontend, ux | MEMBER_B |
+| UI: setup flow, home dashboard and data states | frontend, ux | MEMBER_B |
+| UI: replay, scoreboard and accuracy views (data viz) | frontend | Ayush1860 |
+| UI: presenter and audience modes | frontend, demo | MEMBER_B |
+| UI: wire live API and deploy on Amplify | frontend, infra | MEMBER_B |
+| UI: quality pass (a11y, performance, offline) | frontend, ux | MEMBER_B |
 
-- [ ] **Step 5: Push the branch and open the PR:**
+If B has not accepted the invite yet, GitHub rejects B as an assignee. In that case, create B's issues unassigned and assign them after B accepts.
+
+- [ ] **Step 6: Push the branch and open the PR:**
 
 ```bash
 git switch as/repo-scaffold
@@ -2043,14 +2189,34 @@ git push -u origin as/repo-scaffold
 gh pr create --base main --title "chore: scaffold repo, CI and API contract" --body-file -
 ```
 
-The body follows the PR template. It closes the Phase 1 issue and pastes the `pytest` output as evidence.
+The body follows the PR template, closes the Phase 1 issue, and pastes the `pytest` output as evidence.
 
-- [ ] **Step 6: Wait for CI to go green.** Then run the code-review skill on the PR diff, address findings, merge with `gh pr merge --squash --delete-branch`, and pull `main`.
+- [ ] **Step 7: Wait for green CI and review.** Run the code-review skill on the PR diff and address the findings. Then merge and pull:
 
-- [ ] **Step 7: Phase 1 exit.** Report to the user:
+```bash
+gh pr merge --rebase --delete-branch
+git switch main && git pull --ff-only
+```
+
+- [ ] **Step 8: Require B's approval once B has accepted the invite.** Check with:
+
+```bash
+gh api repos/Ayush1860/breathewise/collaborators/MEMBER_B --silent && echo accepted
+```
+
+Then raise the required approvals to 1:
+
+```bash
+gh api -X PATCH repos/Ayush1860/breathewise/branches/main/protection/required_pull_request_reviews -F required_approving_review_count=1
+```
+
+Until that has happened, report "approval rule pending B" in the phase exit.
+
+- [ ] **Step 9: Phase 1 exit.** Report to the user:
   - CI run link;
   - test count;
   - fixture list;
+  - repo settings evidence;
   - the instructions for B: clone, then `uv run uvicorn backend.app:app`, then `X-Mock-Scenario`.
 
   Then STOP for "continue".

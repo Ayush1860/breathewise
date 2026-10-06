@@ -48,12 +48,12 @@ It will be presented live on real-time data at the Environmental Hacks event (Bh
 | Source clients, ingest Lambda, fallback chain | A (Ayush1860) |
 | `naqi.py`, ML pipeline, SHAP groups, replay export | A |
 | SAM infrastructure, forecast Lambda, deployment, monitoring | A |
-| `advisory.py`, `rules.yaml`, `strings.yaml`, best-window finder | A |
+| `advisory.py`, `rules.yaml`, `strings.yaml`, best-window finder | B |
 | FastAPI backend, CloudFront, refresh/health, smoke load test | A |
 | API contract, fixtures, `UI_HANDOFF.md` | A (author), B (consumer) |
-| `/frontend` (separate UI prompt) | B |
+| `/frontend` (separate UI prompt) | B, except the replay, scoreboard and accuracy (data-viz) views, which A owns |
 
-Member B has not set up the repository yet. Until B joins, `main` requires a PR with green CI and no required approval. Once B is a collaborator, B reviews A's PRs and A reviews B's PRs. `CODEOWNERS` reflects the table above.
+B is invited as a collaborator in Phase 1. `main` requires a PR with green CI (`python` and `gitleaks`); once B accepts the invite, 1 approval from the other member is also required. Merges are rebase-only. `CODEOWNERS` reflects the table above.
 
 ## 4. Architecture
 
@@ -323,7 +323,7 @@ FastAPI, run on Lambda through Mangum, with HTTP API in front of it and CloudFro
 | Day | Work (A) | Exit check |
 |---|---|---|
 | Tue 6 Oct | Scaffold, CI, contract and fixtures (final), G3 samples, station choice, `naqi.py` (TDD), G1 probe, SAM stack with ingest and baseline forecast deployed | Hourly runs green in CloudWatch; S3 and DynamoDB filling; `FCLOG` entries with `baseline-camsbias-v0` |
-| Wed 7 Oct | G2, history pull, features with leakage test, LightGBM v1, metrics, TreeSHAP groups, model deployed. In parallel: `advisory.py` plus best window (TDD) and the API on local storage | `metrics.json` meets the §1 criteria; live `FC#CURRENT` has drivers; API tests pass against fixtures |
+| Wed 7 Oct | G2, history pull, features with leakage test, LightGBM v1, metrics, TreeSHAP groups, model deployed. In parallel: the API on local storage. (B: `advisory.py` plus best window, TDD) | `metrics.json` meets the §1 criteria; live `FC#CURRENT` has drivers; API tests pass against fixtures |
 | Thu 8 Oct | API deployed behind CloudFront, wired to DynamoDB. **`UI_HANDOFF.md` by 12:00.** Replay export, scoreboard, failure simulation, `REPORT.md` | B can call the live API; replay JSON validates; forced failures degrade gracefully |
 | Fri 9 Oct | Smoke load test, warm-up on, S1 if time allows, freeze 18:00, rehearsal | p95 under 1 s; no open P0 issues |
 
