@@ -1,3 +1,38 @@
 # Infrastructure
 
-AWS SAM template for the `breathewise-prod` stack (added in Phase 5).
+AWS SAM stack `breathewise-prod` (ap-south-1), in the repo owner's account only.
+
+## Build and deploy
+
+```bash
+uv run --with pip python infra/scripts/build.py      # stage code + build layers into build/
+sam deploy --template-file infra/template.yaml --config-file samconfig.toml
+```
+
+Run `sam deploy` from `infra/`, or pass `--config-file infra/samconfig.toml`. A deploy needs a reviewed resource list and cost estimate first.
+
+## Resources
+
+| Resource | Purpose |
+|---|---|
+| DynamoDB table (on-demand, TTL `ttl`) | Observations, latest reading, forecasts, forecast log, health |
+| S3 bucket (private, SSE, `raw/` expires after 30 d) | Raw source payloads, model artefacts |
+| `IngestFunction` + EventBridge Scheduler `cron(15 * * * ? *)` | Hourly fallback-chain ingest; invokes the forecast asynchronously |
+| `ForecastFunction` (common + ml layers) | Forecast and forecast log |
+| `ProbeFunction` (ml layer) | G1 packaging probe; remove after it passes |
+| `CommonLayer` (pydantic), `MlLayer` (lightgbm, numpy, scipy, libgomp) | Dependencies |
+| Log groups (14 d) and 2 error alarms | Monitoring |
+
+## Demo drill
+
+Simulate source outages without touching code:
+
+```bash
+sam deploy ... --parameter-overrides ForceFail=cpcb,openaq
+```
+
+## Budget alert ($1)
+
+```bash
+aws budgets create-budget --account-id <ACCOUNT_ID> --budget '{"BudgetName":"breathewise-1usd","BudgetLimit":{"Amount":"1","Unit":"USD"},"TimeUnit":"MONTHLY","BudgetType":"COST"}' --notifications-with-subscribers '[{"Notification":{"NotificationType":"ACTUAL","ComparisonOperator":"GREATER_THAN","Threshold":100,"ThresholdType":"PERCENTAGE"},"Subscribers":[{"SubscriptionType":"EMAIL","Address":"<YOUR_EMAIL>"}]},{"Notification":{"NotificationType":"FORECASTED","ComparisonOperator":"GREATER_THAN","Threshold":100,"ThresholdType":"PERCENTAGE"},"Subscribers":[{"SubscriptionType":"EMAIL","Address":"<YOUR_EMAIL>"}]}]'
+```

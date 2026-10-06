@@ -1,0 +1,171 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: BreatheWise core - hourly ingest, forecast and storage
+
+Parameters:
+  ForceFail:
+    Type: String
+    Default: ""
+    Description: Demo drill. Comma-separated sources to simulate as failing (cpcb,openaq,cams_model).
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [x86_64]
+    CodeUri: ../build/code
+    Timeout: 120
+    MemorySize: 512
+    Layers:
+      - !Ref CommonLayer
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref Table
+
+Resources:
+  Table:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+  DataBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 }
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-raw
+            Status: Enabled
+            Prefix: raw/
+            ExpirationInDays: 30
+
+  CommonLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: ../build/common-layer
+      CompatibleRuntimes: [python3.12]
+      RetentionPolicy: Delete
+
+  MlLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: ../build/ml-layer
+      CompatibleRuntimes: [python3.12]
+      RetentionPolicy: Delete
+
+  IngestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ingest.handler.handler
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DataBucket
+          FORECAST_FUNCTION: !Ref ForecastFunction
+          FORCE_FAIL: !Ref ForceFail
+      Policies:
+        - DynamoDBCrudPolicy: { TableName: !Ref Table }
+        - S3WritePolicy: { BucketName: !Ref DataBucket }
+        - LambdaInvokePolicy: { FunctionName: !Ref ForecastFunction }
+      Events:
+        Hourly:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: cron(15 * * * ? *)
+            RetryPolicy:
+              MaximumRetryAttempts: 1
+
+  ForecastFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ml.handler.handler
+      MemorySize: 1024
+      Layers:
+        - !Ref MlLayer
+      Policies:
+        - DynamoDBCrudPolicy: { TableName: !Ref Table }
+      EventInvokeConfig:
+        MaximumRetryAttempts: 0
+
+  ProbeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: probe/
+      Handler: handler.handler
+      MemorySize: 1024
+      Layers:
+        - !Ref MlLayer
+
+  IngestLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${IngestFunction}
+      RetentionInDays: 14
+
+  ForecastLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ForecastFunction}
+      RetentionInDays: 14
+
+  ProbeLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ProbeFunction}
+      RetentionInDays: 3
+
+  IngestErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Ingest failed at least twice in 2 hours
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - { Name: FunctionName, Value: !Ref IngestFunction }
+      Statistic: Sum
+      Period: 7200
+      EvaluationPeriods: 1
+      Threshold: 2
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+  ForecastErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Forecast failed at least twice in 2 hours
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - { Name: FunctionName, Value: !Ref ForecastFunction }
+      Statistic: Sum
+      Period: 7200
+      EvaluationPeriods: 1
+      Threshold: 2
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+Outputs:
+  TableName:
+    Value: !Ref Table
+  BucketName:
+    Value: !Ref DataBucket
+  IngestFunctionName:
+    Value: !Ref IngestFunction
+  ForecastFunctionName:
+    Value: !Ref ForecastFunction
+  ProbeFunctionName:
+    Value: !Ref ProbeFunction

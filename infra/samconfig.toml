@@ -1,0 +1,11 @@
+version = 0.1
+
+[default.global.parameters]
+stack_name = "breathewise-prod"
+
+[default.deploy.parameters]
+region = "ap-south-1"
+capabilities = "CAPABILITY_IAM"
+resolve_s3 = true
+confirm_changeset = true
+s3_prefix = "breathewise-prod"
