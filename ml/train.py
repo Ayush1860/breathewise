@@ -102,6 +102,7 @@ def run(
 
     all_series = [to_series(f, codes[s]) for s, f in frames.items()]
     production = train(all_series, horizons, version, rounds)
+    production.station_codes = codes
     target = out_dir / version
     production.save(target)
     (target / "metrics.json").write_text(metrics.model_dump_json(indent=2), encoding="utf-8")

@@ -77,3 +77,9 @@ def test_negative_predictions_clipped(model):
     s.pm10[:] = 0.0
     for horizon in model.predict(s, 300).values():
         assert min(horizon["pm25"]) >= 0
+
+
+def test_station_codes_survive_save_and_load(model, tmp_path):
+    model.station_codes = {"dl-rohini": 0}
+    model.save(tmp_path)
+    assert ForecastModel.load(tmp_path).station_codes == {"dl-rohini": 0}

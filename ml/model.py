@@ -45,6 +45,7 @@ class ForecastModel:
         self.boosters = boosters
         self.model_version = model_version
         self.horizons = tuple(horizons)
+        self.station_codes: dict[str, int] = {}
 
     def predict(self, s: StationSeries, t: int) -> dict[int, dict[str, tuple[float, float, float]]]:
         """{horizon: {pollutant: (q10, q50, q90)}}, sorted per hour and clipped at 0."""
@@ -87,6 +88,7 @@ class ForecastModel:
             "quantiles": list(QUANTILES),
             "pollutants": list(POLLUTANTS),
             "feature_names": {p: feature_names(p) for p in POLLUTANTS},
+            "station_codes": self.station_codes,
         }
         (directory / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
@@ -100,7 +102,9 @@ class ForecastModel:
             for h in manifest["horizons"]
             for q in manifest["quantiles"]
         }
-        return cls(boosters, manifest["model_version"], manifest["horizons"])
+        model = cls(boosters, manifest["model_version"], manifest["horizons"])
+        model.station_codes = manifest.get("station_codes", {})
+        return model
 
 
 def _rows(series: Iterable[StationSeries], horizon: int, pollutant: str):
