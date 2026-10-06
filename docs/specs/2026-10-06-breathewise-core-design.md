@@ -112,7 +112,10 @@ These are verification gates. The result of each is recorded in `ml/REPORT.md` o
 ### Stations
 - Choose 3–4 Delhi CPCB stations by measured coverage. Coverage is the share of hourly PM2.5 and PM10 present over the training window plus the last 30 days. Report it in `REPORT.md`.
 - Each station is mapped to its OpenAQ location ID and its CAMS grid point (lat/lon).
-- `VENUE_STATION_ID` is a config value, set to the selected station nearest the venue. The venue address is still an open item (§15). Until it is known, the default is the station with the best coverage.
+- **Venue:** Delhi Technological University, Shahbad Daulatpur, Bawana Road, north-west Delhi (approx. 28.750 N, 77.117 E; coordinates to be verified).
+- **Candidate venue stations:** Rohini (DPCC), Bawana (DPCC), Alipur, Narela, Jahangirpuri, Ashok Vihar and Wazirpur. The selection must include the closest candidate with ≥70% PM coverage.
+- **Other stations:** fill the remaining slots with high-coverage stations in other parts of Delhi (for example Anand Vihar, a stubble-season hotspot), so that the replays and the model see a range of conditions.
+- `VENUE_STATION_ID` is a config value, set to that venue station. The API reports the venue's `distance_km` honestly.
 - The API returns `distance_km` from the user's location to the station.
 
 ### History
@@ -328,7 +331,7 @@ FastAPI, run on Lambda through Mangum, with HTTP API in front of it and CloudFro
 
 | Item | Mitigation |
 |---|---|
-| Venue address in Delhi unknown, so `VENUE_STATION_ID` unset | Default to the best-coverage station; it is a one-line config change |
+| Nearest stations to DTU (north-west Delhi) may have patchy coverage | Choose by measured coverage among the candidates; `distance_km` is shown honestly |
 | CPCB on data.gov.in is unreliable or lagging | Fallback chain; the `source` field is shown honestly |
 | G1 fails (size or `libgomp`) | Switch to ECR the same day |
 | G2 shows no archived forecasts | Issue-time-only features; documented limitation |
