@@ -98,3 +98,28 @@ def test_openapi_declares_404_for_station_endpoints():
     for path in ("/aqi/current", "/aqi/forecast", "/scoreboard"):
         assert "404" in paths[path]["get"]["responses"], path
     assert "404" in paths["/advice"]["post"]["responses"]
+
+
+@pytest.mark.parametrize(
+    "path,expected",
+    [
+        ("/stations", "public, max-age=300"),
+        ("/metrics", "public, max-age=300"),
+        ("/aqi/current", "public, max-age=60"),
+        ("/aqi/forecast", "public, max-age=60"),
+        ("/scoreboard", "public, max-age=300"),
+        ("/health", "no-store"),
+    ],
+)
+def test_cache_control_per_endpoint(path, expected):
+    assert client.get(path).headers["cache-control"] == expected
+
+
+def test_post_endpoints_are_not_cached():
+    assert client.post("/refresh").headers["cache-control"] == "no-store"
+
+
+def test_lambda_handler_ignores_warmup_ping():
+    from backend.lambda_api import handler
+
+    assert handler({"warmup": True}, None) == {"warmup": "ok"}

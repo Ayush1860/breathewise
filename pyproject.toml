@@ -6,6 +6,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "pydantic>=2.9,<3",
     "fastapi>=0.115,<1",
+    "mangum>=0.19",
 ]
 
 [dependency-groups]
@@ -25,6 +26,9 @@ package = false
 [tool.pytest.ini_options]
 testpaths = ["backend/tests", "ingest/tests", "ml/tests"]
 pythonpath = ["."]
+filterwarnings = [
+    "ignore:There is no current event loop:DeprecationWarning:mangum.adapter",
+]
 
 [tool.ruff]
 line-length = 100
