@@ -1,8 +1,5 @@
 # Core system: data, ML, infra, API, docs
 *                       @Ayush1860
 
-# Member B
-/frontend/              @MEMBER_B
-/backend/advisory.py    @MEMBER_B
-/backend/rules.yaml     @MEMBER_B
-/backend/strings.yaml   @MEMBER_B
+# Member B owns /frontend/ and backend/{advisory.py,rules.yaml,strings.yaml};
+# their entries are added when B joins the repository.

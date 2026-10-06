@@ -30,4 +30,4 @@ uv run uvicorn backend.app:app --reload   # mock API on fixtures
 | Member | GitHub | Owns |
 |---|---|---|
 | Ayush Suryawanshi | [@Ayush1860](https://github.com/Ayush1860) | Data, ML, AWS infra, API, replay/scoreboard/accuracy views |
-| Member B | [@MEMBER_B](https://github.com/MEMBER_B) | Frontend, advisory engine (rules, strings, best window) |
+| Member B | joining | Frontend, advisory engine (rules, strings, best window) |
