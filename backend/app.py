@@ -54,6 +54,24 @@ app.add_middleware(
     allow_headers=["Content-Type", "X-Mock-Scenario"],
 )
 
+CACHE_SECONDS = {
+    "/stations": 300,
+    "/metrics": 300,
+    "/scoreboard": 300,
+    "/aqi/current": 60,
+    "/aqi/forecast": 60,
+}
+
+
+@app.middleware("http")
+async def _cache_control(request: Request, call_next):
+    response = await call_next(request)
+    seconds = CACHE_SECONDS.get(request.url.path)
+    cacheable = request.method == "GET" and seconds and response.status_code == 200
+    response.headers["Cache-Control"] = f"public, max-age={seconds}" if cacheable else "no-store"
+    return response
+
+
 NOT_FOUND = {404: {"model": ErrorResponse, "description": "Unknown station_id"}}
 UNAVAILABLE = {503: {"model": ErrorResponse, "description": "No data available yet"}}
 

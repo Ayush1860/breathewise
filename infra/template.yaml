@@ -7,6 +7,15 @@ Parameters:
     Type: String
     Default: ""
     Description: Demo drill. Comma-separated sources to simulate as failing (cpcb,openaq,cams_model).
+  WarmupState:
+    Type: String
+    Default: DISABLED
+    AllowedValues: [ENABLED, DISABLED]
+    Description: Keep the API Lambda warm every 5 minutes (enable on event day).
+  CorsOrigins:
+    Type: String
+    Default: "http://localhost:5173,http://localhost:3000"
+    Description: Comma-separated allowed origins (add the Amplify domain when known).
 
 Globals:
   Function:
@@ -110,6 +119,84 @@ Resources:
       Layers:
         - !Ref MlLayer
 
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: backend.lambda_api.handler
+      Timeout: 15
+      Environment:
+        Variables:
+          INGEST_FUNCTION: !Ref IngestFunction
+          CORS_ORIGINS: !Ref CorsOrigins
+      Policies:
+        - DynamoDBCrudPolicy: { TableName: !Ref Table }
+        - LambdaInvokePolicy: { FunctionName: !Ref IngestFunction }
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+        Warmup:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: rate(5 minutes)
+            State: !Ref WarmupState
+            Input: '{"warmup": true}'
+
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 100
+        ThrottlingRateLimit: 50
+
+  ApiCachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        Name: !Sub ${AWS::StackName}-api
+        MinTTL: 0
+        DefaultTTL: 0
+        MaxTTL: 300
+        ParametersInCacheKeyAndForwardedToOrigin:
+          EnableAcceptEncodingGzip: true
+          EnableAcceptEncodingBrotli: true
+          QueryStringsConfig: { QueryStringBehavior: all }
+          HeadersConfig:
+            HeaderBehavior: whitelist
+            Headers: [Origin]
+          CookiesConfig: { CookieBehavior: none }
+
+  ApiDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: BreatheWise API
+        PriceClass: PriceClass_200
+        HttpVersion: http2and3
+        Origins:
+          - Id: httpapi
+            DomainName: !Sub ${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1.2]
+        DefaultCacheBehavior:
+          TargetOriginId: httpapi
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          CachePolicyId: !Ref ApiCachePolicy
+          # Managed "AllViewerExceptHostHeader": forwards query strings and headers, not Host
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+
+  ApiLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ApiFunction}
+      RetentionInDays: 14
+
   IngestLogs:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -159,6 +246,12 @@ Resources:
       TreatMissingData: notBreaching
 
 Outputs:
+  ApiUrl:
+    Description: Public API base URL (CloudFront)
+    Value: !Sub https://${ApiDistribution.DomainName}
+  HttpApiUrl:
+    Description: Direct API Gateway URL (bypasses the cache)
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
   TableName:
     Value: !Ref Table
   BucketName:

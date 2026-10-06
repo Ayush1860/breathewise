@@ -3,7 +3,7 @@
     uv run --with pip python infra/scripts/build.py [--skip-ml]
 
 build/code          backend/, ingest/, ml/ packages (no tests, no scripts)
-build/common-layer  python/ with pydantic (manylinux, py3.12 x86_64)
+build/common-layer  python/ with pydantic, fastapi, mangum (manylinux, py3.12 x86_64)
 build/ml-layer      see build_ml_layer.py
 """
 
@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / "build"
 PACKAGES = ("backend", "ingest", "ml")
 SKIP = shutil.ignore_patterns("tests", "scripts", "__pycache__", "*.pyc")
-COMMON = ["pydantic>=2.9,<3"]
+COMMON = ["pydantic>=2.9,<3", "fastapi>=0.115,<1", "mangum>=0.19,<1"]
 sys.path.insert(0, str(Path(__file__).parent))
 
 from build_ml_layer import PIP_TARGET_ARGS  # noqa: E402
