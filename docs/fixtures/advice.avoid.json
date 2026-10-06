@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "station_id": "dl-rohini",
+  "profile": "respiratory",
+  "activity": "walk",
+  "duration_h": 2,
+  "forecast_issued_at": "2026-10-10T04:00:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "stale": false,
+  "age_minutes": 5,
+  "verdict": "AVOID",
+  "reason": {
+    "key": "reason.sensitive.very_poor",
+    "params": {
+      "band": "Very Poor",
+      "condition": "respiratory conditions"
+    },
+    "text": "Air quality is Very Poor. People with respiratory conditions are more affected at this level."
+  },
+  "advice": [
+    {
+      "key": "advice.stay_indoors",
+      "params": {},
+      "text": "Stay indoors and keep windows closed during peak hours."
+    },
+    {
+      "key": "advice.n95_if_must",
+      "params": {},
+      "text": "If you must go out, wear a well-fitted N95 mask."
+    },
+    {
+      "key": "advice.use_best_window",
+      "params": {
+        "activity": "walk",
+        "start": "16:30",
+        "end": "18:30"
+      },
+      "text": "Plan your walk for 16:30-18:30 IST, when air is expected to be cleanest."
+    }
+  ],
+  "basis": "q90",
+  "best_window": {
+    "start": "2026-10-10T11:00:00Z",
+    "end": "2026-10-10T13:00:00Z",
+    "worst_index": 317,
+    "band": "very_poor",
+    "improves_on_now": true
+  }
+}

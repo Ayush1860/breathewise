@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "stations": [
+    {
+      "station_id": "dl-rohini",
+      "name": "Rohini, Delhi - DPCC",
+      "lat": 28.7325,
+      "lon": 77.1112,
+      "distance_km": 2.4,
+      "coverage_pct": 91.5,
+      "is_venue_default": true
+    },
+    {
+      "station_id": "dl-anand-vihar",
+      "name": "Anand Vihar, Delhi - DPCC",
+      "lat": 28.6468,
+      "lon": 77.316,
+      "distance_km": 22.7,
+      "coverage_pct": 95.2,
+      "is_venue_default": false
+    }
+  ]
+}

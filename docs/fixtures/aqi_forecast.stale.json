@@ -1,0 +1,414 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "station_id": "dl-rohini",
+  "issued_at": "2026-10-10T01:00:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "basis": "pm_only",
+  "stale": true,
+  "age_minutes": 185,
+  "summary": {
+    "key": "explain.falling.ventilation",
+    "params": {
+      "pollutant": "PM2.5"
+    },
+    "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+  },
+  "hours": [
+    {
+      "target_time": "2026-10-10T02:00:00Z",
+      "horizon_h": 1,
+      "pm25": {
+        "q10": 146.1,
+        "q50": 176.0,
+        "q90": 220.9
+      },
+      "pm10": {
+        "q10": 255.7,
+        "q50": 308.0,
+        "q90": 386.6
+      },
+      "index": {
+        "q10": 320,
+        "q50": 343,
+        "q90": 378
+      },
+      "band": "very_poor",
+      "drivers": {
+        "ventilation": -3.6,
+        "recent_buildup": 5.1,
+        "regional_pollution": 2.4,
+        "time_of_day": -9.9
+      },
+      "explanation": {
+        "key": "explain.falling.time_of_day",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+      }
+    },
+    {
+      "target_time": "2026-10-10T03:00:00Z",
+      "horizon_h": 2,
+      "pm25": {
+        "q10": 136.1,
+        "q50": 168.0,
+        "q90": 215.9
+      },
+      "pm10": {
+        "q10": 238.2,
+        "q50": 294.0,
+        "q90": 377.8
+      },
+      "index": {
+        "q10": 313,
+        "q50": 337,
+        "q90": 374
+      },
+      "band": "very_poor",
+      "drivers": {
+        "ventilation": -8.4,
+        "recent_buildup": 3.9,
+        "regional_pollution": 1.6,
+        "time_of_day": -11.1
+      },
+      "explanation": {
+        "key": "explain.falling.time_of_day",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+      }
+    },
+    {
+      "target_time": "2026-10-10T04:00:00Z",
+      "horizon_h": 3,
+      "pm25": {
+        "q10": 122.5,
+        "q50": 155.0,
+        "q90": 203.8
+      },
+      "pm10": {
+        "q10": 214.4,
+        "q50": 271.2,
+        "q90": 356.7
+      },
+      "index": {
+        "q10": 302,
+        "q50": 327,
+        "q90": 365
+      },
+      "band": "very_poor",
+      "drivers": {
+        "ventilation": -16.2,
+        "recent_buildup": 2.0,
+        "regional_pollution": 0.3,
+        "time_of_day": -13.1
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T05:00:00Z",
+      "horizon_h": 4,
+      "pm25": {
+        "q10": 106.3,
+        "q50": 138.0,
+        "q90": 185.6
+      },
+      "pm10": {
+        "q10": 186.0,
+        "q50": 241.5,
+        "q90": 324.8
+      },
+      "index": {
+        "q10": 252,
+        "q50": 314,
+        "q90": 351
+      },
+      "band": "very_poor",
+      "drivers": {
+        "ventilation": -26.4,
+        "recent_buildup": -0.6,
+        "regional_pollution": -1.4,
+        "time_of_day": -15.6
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T06:00:00Z",
+      "horizon_h": 5,
+      "pm25": {
+        "q10": 90.8,
+        "q50": 121.0,
+        "q90": 166.4
+      },
+      "pm10": {
+        "q10": 158.9,
+        "q50": 211.8,
+        "q90": 291.2
+      },
+      "index": {
+        "q10": 201,
+        "q50": 301,
+        "q90": 336
+      },
+      "band": "very_poor",
+      "drivers": {
+        "ventilation": -36.6,
+        "recent_buildup": -3.2,
+        "regional_pollution": -3.1,
+        "time_of_day": -18.1
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T07:00:00Z",
+      "horizon_h": 6,
+      "pm25": {
+        "q10": 78.8,
+        "q50": 108.0,
+        "q90": 151.7
+      },
+      "pm10": {
+        "q10": 137.9,
+        "q50": 189.0,
+        "q90": 265.5
+      },
+      "index": {
+        "q10": 162,
+        "q50": 259,
+        "q90": 325
+      },
+      "band": "poor",
+      "drivers": {
+        "ventilation": -44.4,
+        "recent_buildup": -5.1,
+        "regional_pollution": -4.4,
+        "time_of_day": -20.1
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T08:00:00Z",
+      "horizon_h": 7,
+      "pm25": {
+        "q10": 70.3,
+        "q50": 99.0,
+        "q90": 142.1
+      },
+      "pm10": {
+        "q10": 123.0,
+        "q50": 173.2,
+        "q90": 248.7
+      },
+      "index": {
+        "q10": 132,
+        "q50": 228,
+        "q90": 317
+      },
+      "band": "poor",
+      "drivers": {
+        "ventilation": -49.8,
+        "recent_buildup": -6.4,
+        "regional_pollution": -5.3,
+        "time_of_day": -21.5
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T09:00:00Z",
+      "horizon_h": 8,
+      "pm25": {
+        "q10": 64.9,
+        "q50": 94.0,
+        "q90": 137.7
+      },
+      "pm10": {
+        "q10": 113.6,
+        "q50": 164.5,
+        "q90": 241.0
+      },
+      "index": {
+        "q10": 115,
+        "q50": 211,
+        "q90": 314
+      },
+      "band": "poor",
+      "drivers": {
+        "ventilation": -52.8,
+        "recent_buildup": -7.2,
+        "regional_pollution": -5.8,
+        "time_of_day": -22.2
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T10:00:00Z",
+      "horizon_h": 9,
+      "pm25": {
+        "q10": 64.3,
+        "q50": 96.0,
+        "q90": 143.5
+      },
+      "pm10": {
+        "q10": 112.5,
+        "q50": 168.0,
+        "q90": 251.1
+      },
+      "index": {
+        "q10": 111,
+        "q50": 218,
+        "q90": 319
+      },
+      "band": "poor",
+      "drivers": {
+        "ventilation": -51.6,
+        "recent_buildup": -6.9,
+        "regional_pollution": -5.6,
+        "time_of_day": -21.9
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T11:00:00Z",
+      "horizon_h": 10,
+      "pm25": {
+        "q10": 67.6,
+        "q50": 104.0,
+        "q90": 158.6
+      },
+      "pm10": {
+        "q10": 118.3,
+        "q50": 182.0,
+        "q90": 277.6
+      },
+      "index": {
+        "q10": 125,
+        "q50": 245,
+        "q90": 330
+      },
+      "band": "poor",
+      "drivers": {
+        "ventilation": -46.8,
+        "recent_buildup": -5.7,
+        "regional_pollution": -4.8,
+        "time_of_day": -20.7
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T12:00:00Z",
+      "horizon_h": 11,
+      "pm25": {
+        "q10": 74.3,
+        "q50": 118.0,
+        "q90": 183.5
+      },
+      "pm10": {
+        "q10": 130.0,
+        "q50": 206.5,
+        "q90": 321.1
+      },
+      "index": {
+        "q10": 145,
+        "q50": 293,
+        "q90": 349
+      },
+      "band": "poor",
+      "drivers": {
+        "ventilation": -38.4,
+        "recent_buildup": -3.6,
+        "regional_pollution": -3.4,
+        "time_of_day": -18.6
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    },
+    {
+      "target_time": "2026-10-10T13:00:00Z",
+      "horizon_h": 12,
+      "pm25": {
+        "q10": 81.7,
+        "q50": 134.0,
+        "q90": 212.4
+      },
+      "pm10": {
+        "q10": 143.0,
+        "q50": 234.5,
+        "q90": 371.7
+      },
+      "index": {
+        "q10": 173,
+        "q50": 311,
+        "q90": 371
+      },
+      "band": "very_poor",
+      "drivers": {
+        "ventilation": -28.8,
+        "recent_buildup": -1.2,
+        "regional_pollution": -1.8,
+        "time_of_day": -16.2
+      },
+      "explanation": {
+        "key": "explain.falling.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to fall, mainly because of better ventilation (stronger winds and a deeper mixing layer)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "station_id": "dl-rohini",
+  "profile": "healthy_adult",
+  "activity": "walk",
+  "duration_h": 1,
+  "forecast_issued_at": "2026-10-10T04:00:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "stale": false,
+  "age_minutes": 5,
+  "verdict": "GO",
+  "reason": {
+    "key": "reason.general.satisfactory",
+    "params": {
+      "band": "Satisfactory"
+    },
+    "text": "Air quality is Satisfactory. Normal outdoor activity is fine."
+  },
+  "advice": [
+    {
+      "key": "advice.go_ahead",
+      "params": {},
+      "text": "Go ahead. Conditions are fine for this activity."
+    }
+  ],
+  "basis": "q50",
+  "best_window": {
+    "start": "2026-10-10T12:00:00Z",
+    "end": "2026-10-10T13:00:00Z",
+    "worst_index": 211,
+    "band": "poor",
+    "improves_on_now": false
+  }
+}

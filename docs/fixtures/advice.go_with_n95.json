@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "station_id": "dl-rohini",
+  "profile": "healthy_adult",
+  "activity": "run_exercise",
+  "duration_h": 1,
+  "forecast_issued_at": "2026-10-10T04:00:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "stale": false,
+  "age_minutes": 5,
+  "verdict": "GO_WITH_N95",
+  "reason": {
+    "key": "reason.exertion.moderately_polluted",
+    "params": {
+      "band": "Moderately Polluted"
+    },
+    "text": "Air quality is Moderately Polluted. Hard exercise makes you breathe in much more air, and more pollution with it."
+  },
+  "advice": [
+    {
+      "key": "advice.wear_n95",
+      "params": {},
+      "text": "Wear a well-fitted N95 mask."
+    },
+    {
+      "key": "advice.lower_intensity",
+      "params": {},
+      "text": "Consider a lighter pace or a shorter session."
+    }
+  ],
+  "basis": "q50",
+  "best_window": {
+    "start": "2026-10-10T12:00:00Z",
+    "end": "2026-10-10T13:00:00Z",
+    "worst_index": 211,
+    "band": "poor",
+    "improves_on_now": false
+  }
+}

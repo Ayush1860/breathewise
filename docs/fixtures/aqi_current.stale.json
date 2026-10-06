@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "station": {
+    "station_id": "dl-rohini",
+    "name": "Rohini, Delhi - DPCC",
+    "lat": 28.7325,
+    "lon": 77.1112,
+    "distance_km": 2.4,
+    "coverage_pct": 91.5,
+    "is_venue_default": true
+  },
+  "observed_at": "2026-10-10T01:00:00Z",
+  "source": "cpcb",
+  "stale": true,
+  "age_minutes": 185,
+  "aqi": {
+    "status": "ok",
+    "aqi": 334,
+    "band": "very_poor",
+    "dominant_pollutant": "pm25",
+    "pollutants_present": [
+      "pm25",
+      "pm10",
+      "no2",
+      "o3",
+      "co"
+    ]
+  },
+  "hourly_index": 348,
+  "hourly_band": "very_poor",
+  "sub_indices": [
+    {
+      "pollutant": "pm25",
+      "concentration": 164.0,
+      "unit": "ug_m3",
+      "sub_index": 334
+    },
+    {
+      "pollutant": "pm10",
+      "concentration": 290.0,
+      "unit": "ug_m3",
+      "sub_index": 240
+    },
+    {
+      "pollutant": "no2",
+      "concentration": 62.0,
+      "unit": "ug_m3",
+      "sub_index": 77
+    },
+    {
+      "pollutant": "o3",
+      "concentration": 38.0,
+      "unit": "ug_m3",
+      "sub_index": 38
+    },
+    {
+      "pollutant": "co",
+      "concentration": 1.4,
+      "unit": "mg_m3",
+      "sub_index": 70
+    }
+  ]
+}

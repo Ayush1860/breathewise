@@ -1,0 +1,11 @@
+{
+  "accepted": false,
+  "retry_after_s": 212,
+  "message": {
+    "key": "refresh.rate_limited",
+    "params": {
+      "minutes": 4
+    },
+    "text": "Data was refreshed recently. Try again in 4 min."
+  }
+}

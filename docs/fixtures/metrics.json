@@ -1,0 +1,265 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "trained_until": "2025-10-05T17:30:00Z",
+  "test_start": "2025-10-05T18:30:00Z",
+  "test_end": "2025-12-31T18:29:00Z",
+  "pm25": [
+    {
+      "horizon_h": 1,
+      "mae": 11.1,
+      "rmse": 15.5,
+      "mae_persistence": 12.0,
+      "mae_cams": 38.5,
+      "interval_coverage": 0.796
+    },
+    {
+      "horizon_h": 2,
+      "mae": 13.2,
+      "rmse": 18.5,
+      "mae_persistence": 16.0,
+      "mae_cams": 39.0,
+      "interval_coverage": 0.792
+    },
+    {
+      "horizon_h": 3,
+      "mae": 15.3,
+      "rmse": 21.4,
+      "mae_persistence": 20.0,
+      "mae_cams": 39.5,
+      "interval_coverage": 0.788
+    },
+    {
+      "horizon_h": 4,
+      "mae": 17.4,
+      "rmse": 24.4,
+      "mae_persistence": 24.0,
+      "mae_cams": 40.0,
+      "interval_coverage": 0.784
+    },
+    {
+      "horizon_h": 5,
+      "mae": 19.5,
+      "rmse": 27.3,
+      "mae_persistence": 28.0,
+      "mae_cams": 40.5,
+      "interval_coverage": 0.78
+    },
+    {
+      "horizon_h": 6,
+      "mae": 21.6,
+      "rmse": 30.2,
+      "mae_persistence": 32.0,
+      "mae_cams": 41.0,
+      "interval_coverage": 0.776
+    },
+    {
+      "horizon_h": 7,
+      "mae": 23.7,
+      "rmse": 33.2,
+      "mae_persistence": 36.0,
+      "mae_cams": 41.5,
+      "interval_coverage": 0.772
+    },
+    {
+      "horizon_h": 8,
+      "mae": 25.8,
+      "rmse": 36.1,
+      "mae_persistence": 40.0,
+      "mae_cams": 42.0,
+      "interval_coverage": 0.768
+    },
+    {
+      "horizon_h": 9,
+      "mae": 27.9,
+      "rmse": 39.1,
+      "mae_persistence": 44.0,
+      "mae_cams": 42.5,
+      "interval_coverage": 0.764
+    },
+    {
+      "horizon_h": 10,
+      "mae": 30.0,
+      "rmse": 42.0,
+      "mae_persistence": 48.0,
+      "mae_cams": 43.0,
+      "interval_coverage": 0.76
+    },
+    {
+      "horizon_h": 11,
+      "mae": 32.1,
+      "rmse": 44.9,
+      "mae_persistence": 52.0,
+      "mae_cams": 43.5,
+      "interval_coverage": 0.756
+    },
+    {
+      "horizon_h": 12,
+      "mae": 34.2,
+      "rmse": 47.9,
+      "mae_persistence": 56.0,
+      "mae_cams": 44.0,
+      "interval_coverage": 0.752
+    }
+  ],
+  "pm10": [
+    {
+      "horizon_h": 1,
+      "mae": 17.8,
+      "rmse": 24.9,
+      "mae_persistence": 19.2,
+      "mae_cams": 61.6,
+      "interval_coverage": 0.796
+    },
+    {
+      "horizon_h": 2,
+      "mae": 21.1,
+      "rmse": 29.6,
+      "mae_persistence": 25.6,
+      "mae_cams": 62.4,
+      "interval_coverage": 0.792
+    },
+    {
+      "horizon_h": 3,
+      "mae": 24.5,
+      "rmse": 34.3,
+      "mae_persistence": 32.0,
+      "mae_cams": 63.2,
+      "interval_coverage": 0.788
+    },
+    {
+      "horizon_h": 4,
+      "mae": 27.8,
+      "rmse": 39.0,
+      "mae_persistence": 38.4,
+      "mae_cams": 64.0,
+      "interval_coverage": 0.784
+    },
+    {
+      "horizon_h": 5,
+      "mae": 31.2,
+      "rmse": 43.7,
+      "mae_persistence": 44.8,
+      "mae_cams": 64.8,
+      "interval_coverage": 0.78
+    },
+    {
+      "horizon_h": 6,
+      "mae": 34.6,
+      "rmse": 48.4,
+      "mae_persistence": 51.2,
+      "mae_cams": 65.6,
+      "interval_coverage": 0.776
+    },
+    {
+      "horizon_h": 7,
+      "mae": 37.9,
+      "rmse": 53.1,
+      "mae_persistence": 57.6,
+      "mae_cams": 66.4,
+      "interval_coverage": 0.772
+    },
+    {
+      "horizon_h": 8,
+      "mae": 41.3,
+      "rmse": 57.8,
+      "mae_persistence": 64.0,
+      "mae_cams": 67.2,
+      "interval_coverage": 0.768
+    },
+    {
+      "horizon_h": 9,
+      "mae": 44.6,
+      "rmse": 62.5,
+      "mae_persistence": 70.4,
+      "mae_cams": 68.0,
+      "interval_coverage": 0.764
+    },
+    {
+      "horizon_h": 10,
+      "mae": 48.0,
+      "rmse": 67.2,
+      "mae_persistence": 76.8,
+      "mae_cams": 68.8,
+      "interval_coverage": 0.76
+    },
+    {
+      "horizon_h": 11,
+      "mae": 51.4,
+      "rmse": 71.9,
+      "mae_persistence": 83.2,
+      "mae_cams": 69.6,
+      "interval_coverage": 0.756
+    },
+    {
+      "horizon_h": 12,
+      "mae": 54.7,
+      "rmse": 76.6,
+      "mae_persistence": 89.6,
+      "mae_cams": 70.4,
+      "interval_coverage": 0.752
+    }
+  ],
+  "index_category_accuracy": [
+    {
+      "horizon_h": 1,
+      "accuracy": 0.825,
+      "accuracy_persistence": 0.78
+    },
+    {
+      "horizon_h": 2,
+      "accuracy": 0.81,
+      "accuracy_persistence": 0.75
+    },
+    {
+      "horizon_h": 3,
+      "accuracy": 0.795,
+      "accuracy_persistence": 0.72
+    },
+    {
+      "horizon_h": 4,
+      "accuracy": 0.78,
+      "accuracy_persistence": 0.69
+    },
+    {
+      "horizon_h": 5,
+      "accuracy": 0.765,
+      "accuracy_persistence": 0.66
+    },
+    {
+      "horizon_h": 6,
+      "accuracy": 0.75,
+      "accuracy_persistence": 0.63
+    },
+    {
+      "horizon_h": 7,
+      "accuracy": 0.735,
+      "accuracy_persistence": 0.6
+    },
+    {
+      "horizon_h": 8,
+      "accuracy": 0.72,
+      "accuracy_persistence": 0.57
+    },
+    {
+      "horizon_h": 9,
+      "accuracy": 0.705,
+      "accuracy_persistence": 0.54
+    },
+    {
+      "horizon_h": 10,
+      "accuracy": 0.69,
+      "accuracy_persistence": 0.51
+    },
+    {
+      "horizon_h": 11,
+      "accuracy": 0.675,
+      "accuracy_persistence": 0.48
+    },
+    {
+      "horizon_h": 12,
+      "accuracy": 0.66,
+      "accuracy_persistence": 0.45
+    }
+  ]
+}

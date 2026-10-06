@@ -1,0 +1,2778 @@
+{
+  "episode_id": "example",
+  "title": "Synthetic example episode (real episodes are exported in Phase 7)",
+  "station": {
+    "station_id": "dl-rohini",
+    "name": "Rohini, Delhi - DPCC",
+    "lat": 28.7325,
+    "lon": 77.1112,
+    "distance_km": 2.4,
+    "coverage_pct": 91.5,
+    "is_venue_default": true
+  },
+  "start": "2025-11-12T18:30:00Z",
+  "end": "2025-11-12T23:30:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "hours": [
+    {
+      "time": "2025-11-12T18:30:00Z",
+      "observed": {
+        "pm25": 210.0,
+        "pm10": 357.0,
+        "index": 369,
+        "band": "very_poor"
+      },
+      "forecast_hours": [
+        {
+          "target_time": "2025-11-12T19:30:00Z",
+          "horizon_h": 1,
+          "pm25": {
+            "q10": 184.3,
+            "q50": 222.0,
+            "q90": 278.6
+          },
+          "pm10": {
+            "q10": 322.5,
+            "q50": 388.5,
+            "q90": 487.6
+          },
+          "index": {
+            "q10": 349,
+            "q50": 379,
+            "q90": 472
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-12T20:30:00Z",
+          "horizon_h": 2,
+          "pm25": {
+            "q10": 183.1,
+            "q50": 226.0,
+            "q90": 290.4
+          },
+          "pm10": {
+            "q10": 320.4,
+            "q50": 395.5,
+            "q90": 508.2
+          },
+          "index": {
+            "q10": 349,
+            "q50": 382,
+            "q90": 497
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-12T21:30:00Z",
+          "horizon_h": 3,
+          "pm25": {
+            "q10": 181.7,
+            "q50": 230.0,
+            "q90": 302.4
+          },
+          "pm10": {
+            "q10": 318.0,
+            "q50": 402.5,
+            "q90": 529.2
+          },
+          "index": {
+            "q10": 348,
+            "q50": 385,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-12T22:30:00Z",
+          "horizon_h": 4,
+          "pm25": {
+            "q10": 180.2,
+            "q50": 234.0,
+            "q90": 314.7
+          },
+          "pm10": {
+            "q10": 315.3,
+            "q50": 409.5,
+            "q90": 550.7
+          },
+          "index": {
+            "q10": 346,
+            "q50": 388,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 14.4,
+            "recent_buildup": 9.6,
+            "regional_pollution": 5.4,
+            "time_of_day": -5.4
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-12T23:30:00Z",
+          "horizon_h": 5,
+          "pm25": {
+            "q10": 172.5,
+            "q50": 230.0,
+            "q90": 316.2
+          },
+          "pm10": {
+            "q10": 301.9,
+            "q50": 402.5,
+            "q90": 553.4
+          },
+          "index": {
+            "q10": 340,
+            "q50": 385,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T00:30:00Z",
+          "horizon_h": 6,
+          "pm25": {
+            "q10": 165.0,
+            "q50": 226.0,
+            "q90": 317.5
+          },
+          "pm10": {
+            "q10": 288.8,
+            "q50": 395.5,
+            "q90": 555.6
+          },
+          "index": {
+            "q10": 335,
+            "q50": 382,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T01:30:00Z",
+          "horizon_h": 7,
+          "pm25": {
+            "q10": 157.6,
+            "q50": 222.0,
+            "q90": 318.6
+          },
+          "pm10": {
+            "q10": 275.8,
+            "q50": 388.5,
+            "q90": 557.6
+          },
+          "index": {
+            "q10": 329,
+            "q50": 379,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T02:30:00Z",
+          "horizon_h": 8,
+          "pm25": {
+            "q10": 150.4,
+            "q50": 218.0,
+            "q90": 319.4
+          },
+          "pm10": {
+            "q10": 263.2,
+            "q50": 381.5,
+            "q90": 558.9
+          },
+          "index": {
+            "q10": 323,
+            "q50": 375,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 4.8,
+            "recent_buildup": 7.2,
+            "regional_pollution": 3.8,
+            "time_of_day": -7.8
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T03:30:00Z",
+          "horizon_h": 9,
+          "pm25": {
+            "q10": 143.4,
+            "q50": 214.0,
+            "q90": 319.9
+          },
+          "pm10": {
+            "q10": 251.0,
+            "q50": 374.5,
+            "q90": 559.8
+          },
+          "index": {
+            "q10": 318,
+            "q50": 372,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 2.4,
+            "recent_buildup": 6.6,
+            "regional_pollution": 3.4,
+            "time_of_day": -8.4
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T04:30:00Z",
+          "horizon_h": 10,
+          "pm25": {
+            "q10": 136.5,
+            "q50": 210.0,
+            "q90": 320.2
+          },
+          "pm10": {
+            "q10": 238.9,
+            "q50": 367.5,
+            "q90": 560.4
+          },
+          "index": {
+            "q10": 313,
+            "q50": 369,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 0.0,
+            "recent_buildup": 6.0,
+            "regional_pollution": 3.0,
+            "time_of_day": -9.0
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T05:30:00Z",
+          "horizon_h": 11,
+          "pm25": {
+            "q10": 129.8,
+            "q50": 206.0,
+            "q90": 320.3
+          },
+          "pm10": {
+            "q10": 227.2,
+            "q50": 360.5,
+            "q90": 560.5
+          },
+          "index": {
+            "q10": 308,
+            "q50": 366,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": -2.4,
+            "recent_buildup": 5.4,
+            "regional_pollution": 2.6,
+            "time_of_day": -9.6
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T06:30:00Z",
+          "horizon_h": 12,
+          "pm25": {
+            "q10": 123.2,
+            "q50": 202.0,
+            "q90": 320.2
+          },
+          "pm10": {
+            "q10": 215.6,
+            "q50": 353.5,
+            "q90": 560.4
+          },
+          "index": {
+            "q10": 303,
+            "q50": 363,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": -4.8,
+            "recent_buildup": 4.8,
+            "regional_pollution": 2.2,
+            "time_of_day": -10.2
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        }
+      ],
+      "summary": {
+        "key": "explain.rising.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+      },
+      "persistence_pm25": 210.0,
+      "cams_pm25": 147.0,
+      "verdicts": {
+        "healthy_adult:walk": "AVOID",
+        "healthy_adult:run_exercise": "AVOID",
+        "healthy_adult:cycling_commute": "AVOID",
+        "healthy_adult:two_wheeler_commute": "AVOID",
+        "healthy_adult:kids_outdoor_play": "AVOID",
+        "healthy_adult:outdoor_work_shift": "AVOID",
+        "respiratory:walk": "AVOID",
+        "respiratory:run_exercise": "AVOID",
+        "respiratory:cycling_commute": "AVOID",
+        "respiratory:two_wheeler_commute": "AVOID",
+        "respiratory:kids_outdoor_play": "AVOID",
+        "respiratory:outdoor_work_shift": "AVOID",
+        "heart:walk": "AVOID",
+        "heart:run_exercise": "AVOID",
+        "heart:cycling_commute": "AVOID",
+        "heart:two_wheeler_commute": "AVOID",
+        "heart:kids_outdoor_play": "AVOID",
+        "heart:outdoor_work_shift": "AVOID",
+        "child:walk": "AVOID",
+        "child:run_exercise": "AVOID",
+        "child:cycling_commute": "AVOID",
+        "child:two_wheeler_commute": "AVOID",
+        "child:kids_outdoor_play": "AVOID",
+        "child:outdoor_work_shift": "AVOID",
+        "elderly:walk": "AVOID",
+        "elderly:run_exercise": "AVOID",
+        "elderly:cycling_commute": "AVOID",
+        "elderly:two_wheeler_commute": "AVOID",
+        "elderly:kids_outdoor_play": "AVOID",
+        "elderly:outdoor_work_shift": "AVOID",
+        "pregnant:walk": "AVOID",
+        "pregnant:run_exercise": "AVOID",
+        "pregnant:cycling_commute": "AVOID",
+        "pregnant:two_wheeler_commute": "AVOID",
+        "pregnant:kids_outdoor_play": "AVOID",
+        "pregnant:outdoor_work_shift": "AVOID",
+        "outdoor_worker:walk": "REDUCE_EXPOSURE",
+        "outdoor_worker:run_exercise": "REDUCE_EXPOSURE",
+        "outdoor_worker:cycling_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:two_wheeler_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:kids_outdoor_play": "REDUCE_EXPOSURE",
+        "outdoor_worker:outdoor_work_shift": "REDUCE_EXPOSURE"
+      }
+    },
+    {
+      "time": "2025-11-12T19:30:00Z",
+      "observed": {
+        "pm25": 236.0,
+        "pm10": 401.2,
+        "index": 389,
+        "band": "very_poor"
+      },
+      "forecast_hours": [
+        {
+          "target_time": "2025-11-12T20:30:00Z",
+          "horizon_h": 1,
+          "pm25": {
+            "q10": 205.8,
+            "q50": 248.0,
+            "q90": 311.2
+          },
+          "pm10": {
+            "q10": 360.2,
+            "q50": 434.0,
+            "q90": 544.6
+          },
+          "index": {
+            "q10": 366,
+            "q50": 405,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-12T21:30:00Z",
+          "horizon_h": 2,
+          "pm25": {
+            "q10": 204.1,
+            "q50": 252.0,
+            "q90": 323.8
+          },
+          "pm10": {
+            "q10": 357.2,
+            "q50": 441.0,
+            "q90": 566.6
+          },
+          "index": {
+            "q10": 365,
+            "q50": 414,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-12T22:30:00Z",
+          "horizon_h": 3,
+          "pm25": {
+            "q10": 202.2,
+            "q50": 256.0,
+            "q90": 336.6
+          },
+          "pm10": {
+            "q10": 353.8,
+            "q50": 448.0,
+            "q90": 589.1
+          },
+          "index": {
+            "q10": 363,
+            "q50": 422,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-12T23:30:00Z",
+          "horizon_h": 4,
+          "pm25": {
+            "q10": 200.2,
+            "q50": 260.0,
+            "q90": 349.7
+          },
+          "pm10": {
+            "q10": 350.3,
+            "q50": 455.0,
+            "q90": 612.0
+          },
+          "index": {
+            "q10": 362,
+            "q50": 431,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 14.4,
+            "recent_buildup": 9.6,
+            "regional_pollution": 5.4,
+            "time_of_day": -5.4
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T00:30:00Z",
+          "horizon_h": 5,
+          "pm25": {
+            "q10": 192.0,
+            "q50": 256.0,
+            "q90": 352.0
+          },
+          "pm10": {
+            "q10": 336.0,
+            "q50": 448.0,
+            "q90": 616.0
+          },
+          "index": {
+            "q10": 355,
+            "q50": 422,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T01:30:00Z",
+          "horizon_h": 6,
+          "pm25": {
+            "q10": 184.0,
+            "q50": 252.0,
+            "q90": 354.1
+          },
+          "pm10": {
+            "q10": 322.0,
+            "q50": 441.0,
+            "q90": 619.7
+          },
+          "index": {
+            "q10": 349,
+            "q50": 414,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T02:30:00Z",
+          "horizon_h": 7,
+          "pm25": {
+            "q10": 176.1,
+            "q50": 248.0,
+            "q90": 355.9
+          },
+          "pm10": {
+            "q10": 308.2,
+            "q50": 434.0,
+            "q90": 622.8
+          },
+          "index": {
+            "q10": 343,
+            "q50": 405,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T03:30:00Z",
+          "horizon_h": 8,
+          "pm25": {
+            "q10": 168.4,
+            "q50": 244.0,
+            "q90": 357.5
+          },
+          "pm10": {
+            "q10": 294.7,
+            "q50": 427.0,
+            "q90": 625.6
+          },
+          "index": {
+            "q10": 337,
+            "q50": 396,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 4.8,
+            "recent_buildup": 7.2,
+            "regional_pollution": 3.8,
+            "time_of_day": -7.8
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T04:30:00Z",
+          "horizon_h": 9,
+          "pm25": {
+            "q10": 160.8,
+            "q50": 240.0,
+            "q90": 358.8
+          },
+          "pm10": {
+            "q10": 281.4,
+            "q50": 420.0,
+            "q90": 627.9
+          },
+          "index": {
+            "q10": 332,
+            "q50": 392,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 2.4,
+            "recent_buildup": 6.6,
+            "regional_pollution": 3.4,
+            "time_of_day": -8.4
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T05:30:00Z",
+          "horizon_h": 10,
+          "pm25": {
+            "q10": 153.4,
+            "q50": 236.0,
+            "q90": 359.9
+          },
+          "pm10": {
+            "q10": 268.4,
+            "q50": 413.0,
+            "q90": 629.8
+          },
+          "index": {
+            "q10": 326,
+            "q50": 389,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": 0.0,
+            "recent_buildup": 6.0,
+            "regional_pollution": 3.0,
+            "time_of_day": -9.0
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T06:30:00Z",
+          "horizon_h": 11,
+          "pm25": {
+            "q10": 146.2,
+            "q50": 232.0,
+            "q90": 360.8
+          },
+          "pm10": {
+            "q10": 255.8,
+            "q50": 406.0,
+            "q90": 631.4
+          },
+          "index": {
+            "q10": 320,
+            "q50": 386,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": -2.4,
+            "recent_buildup": 5.4,
+            "regional_pollution": 2.6,
+            "time_of_day": -9.6
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T07:30:00Z",
+          "horizon_h": 12,
+          "pm25": {
+            "q10": 139.1,
+            "q50": 228.0,
+            "q90": 361.4
+          },
+          "pm10": {
+            "q10": 243.4,
+            "q50": 399.0,
+            "q90": 632.4
+          },
+          "index": {
+            "q10": 315,
+            "q50": 383,
+            "q90": 500
+          },
+          "band": "very_poor",
+          "drivers": {
+            "ventilation": -4.8,
+            "recent_buildup": 4.8,
+            "regional_pollution": 2.2,
+            "time_of_day": -10.2
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        }
+      ],
+      "summary": {
+        "key": "explain.rising.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+      },
+      "persistence_pm25": 236.0,
+      "cams_pm25": 165.2,
+      "verdicts": {
+        "healthy_adult:walk": "AVOID",
+        "healthy_adult:run_exercise": "AVOID",
+        "healthy_adult:cycling_commute": "AVOID",
+        "healthy_adult:two_wheeler_commute": "AVOID",
+        "healthy_adult:kids_outdoor_play": "AVOID",
+        "healthy_adult:outdoor_work_shift": "AVOID",
+        "respiratory:walk": "AVOID",
+        "respiratory:run_exercise": "AVOID",
+        "respiratory:cycling_commute": "AVOID",
+        "respiratory:two_wheeler_commute": "AVOID",
+        "respiratory:kids_outdoor_play": "AVOID",
+        "respiratory:outdoor_work_shift": "AVOID",
+        "heart:walk": "AVOID",
+        "heart:run_exercise": "AVOID",
+        "heart:cycling_commute": "AVOID",
+        "heart:two_wheeler_commute": "AVOID",
+        "heart:kids_outdoor_play": "AVOID",
+        "heart:outdoor_work_shift": "AVOID",
+        "child:walk": "AVOID",
+        "child:run_exercise": "AVOID",
+        "child:cycling_commute": "AVOID",
+        "child:two_wheeler_commute": "AVOID",
+        "child:kids_outdoor_play": "AVOID",
+        "child:outdoor_work_shift": "AVOID",
+        "elderly:walk": "AVOID",
+        "elderly:run_exercise": "AVOID",
+        "elderly:cycling_commute": "AVOID",
+        "elderly:two_wheeler_commute": "AVOID",
+        "elderly:kids_outdoor_play": "AVOID",
+        "elderly:outdoor_work_shift": "AVOID",
+        "pregnant:walk": "AVOID",
+        "pregnant:run_exercise": "AVOID",
+        "pregnant:cycling_commute": "AVOID",
+        "pregnant:two_wheeler_commute": "AVOID",
+        "pregnant:kids_outdoor_play": "AVOID",
+        "pregnant:outdoor_work_shift": "AVOID",
+        "outdoor_worker:walk": "REDUCE_EXPOSURE",
+        "outdoor_worker:run_exercise": "REDUCE_EXPOSURE",
+        "outdoor_worker:cycling_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:two_wheeler_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:kids_outdoor_play": "REDUCE_EXPOSURE",
+        "outdoor_worker:outdoor_work_shift": "REDUCE_EXPOSURE"
+      }
+    },
+    {
+      "time": "2025-11-12T20:30:00Z",
+      "observed": {
+        "pm25": 262.0,
+        "pm10": 445.4,
+        "index": 419,
+        "band": "severe"
+      },
+      "forecast_hours": [
+        {
+          "target_time": "2025-11-12T21:30:00Z",
+          "horizon_h": 1,
+          "pm25": {
+            "q10": 227.4,
+            "q50": 274.0,
+            "q90": 343.9
+          },
+          "pm10": {
+            "q10": 397.9,
+            "q50": 479.5,
+            "q90": 601.8
+          },
+          "index": {
+            "q10": 382,
+            "q50": 462,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-12T22:30:00Z",
+          "horizon_h": 2,
+          "pm25": {
+            "q10": 225.2,
+            "q50": 278.0,
+            "q90": 357.2
+          },
+          "pm10": {
+            "q10": 394.1,
+            "q50": 486.5,
+            "q90": 625.1
+          },
+          "index": {
+            "q10": 381,
+            "q50": 470,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-12T23:30:00Z",
+          "horizon_h": 3,
+          "pm25": {
+            "q10": 222.8,
+            "q50": 282.0,
+            "q90": 370.8
+          },
+          "pm10": {
+            "q10": 389.9,
+            "q50": 493.5,
+            "q90": 648.9
+          },
+          "index": {
+            "q10": 379,
+            "q50": 480,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T00:30:00Z",
+          "horizon_h": 4,
+          "pm25": {
+            "q10": 220.2,
+            "q50": 286.0,
+            "q90": 384.7
+          },
+          "pm10": {
+            "q10": 385.3,
+            "q50": 500.5,
+            "q90": 673.2
+          },
+          "index": {
+            "q10": 377,
+            "q50": 487,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 14.4,
+            "recent_buildup": 9.6,
+            "regional_pollution": 5.4,
+            "time_of_day": -5.4
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T01:30:00Z",
+          "horizon_h": 5,
+          "pm25": {
+            "q10": 211.5,
+            "q50": 282.0,
+            "q90": 387.8
+          },
+          "pm10": {
+            "q10": 370.1,
+            "q50": 493.5,
+            "q90": 678.6
+          },
+          "index": {
+            "q10": 371,
+            "q50": 480,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T02:30:00Z",
+          "horizon_h": 6,
+          "pm25": {
+            "q10": 202.9,
+            "q50": 278.0,
+            "q90": 390.6
+          },
+          "pm10": {
+            "q10": 355.1,
+            "q50": 486.5,
+            "q90": 683.6
+          },
+          "index": {
+            "q10": 364,
+            "q50": 470,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T03:30:00Z",
+          "horizon_h": 7,
+          "pm25": {
+            "q10": 194.5,
+            "q50": 274.0,
+            "q90": 393.2
+          },
+          "pm10": {
+            "q10": 340.4,
+            "q50": 479.5,
+            "q90": 688.1
+          },
+          "index": {
+            "q10": 357,
+            "q50": 462,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T04:30:00Z",
+          "horizon_h": 8,
+          "pm25": {
+            "q10": 186.3,
+            "q50": 270.0,
+            "q90": 395.5
+          },
+          "pm10": {
+            "q10": 326.0,
+            "q50": 472.5,
+            "q90": 692.1
+          },
+          "index": {
+            "q10": 351,
+            "q50": 452,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 4.8,
+            "recent_buildup": 7.2,
+            "regional_pollution": 3.8,
+            "time_of_day": -7.8
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T05:30:00Z",
+          "horizon_h": 9,
+          "pm25": {
+            "q10": 178.2,
+            "q50": 266.0,
+            "q90": 397.7
+          },
+          "pm10": {
+            "q10": 311.8,
+            "q50": 465.5,
+            "q90": 696.0
+          },
+          "index": {
+            "q10": 345,
+            "q50": 445,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 2.4,
+            "recent_buildup": 6.6,
+            "regional_pollution": 3.4,
+            "time_of_day": -8.4
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T06:30:00Z",
+          "horizon_h": 10,
+          "pm25": {
+            "q10": 170.3,
+            "q50": 262.0,
+            "q90": 399.5
+          },
+          "pm10": {
+            "q10": 298.0,
+            "q50": 458.5,
+            "q90": 699.1
+          },
+          "index": {
+            "q10": 339,
+            "q50": 435,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 0.0,
+            "recent_buildup": 6.0,
+            "regional_pollution": 3.0,
+            "time_of_day": -9.0
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T07:30:00Z",
+          "horizon_h": 11,
+          "pm25": {
+            "q10": 162.5,
+            "q50": 258.0,
+            "q90": 401.2
+          },
+          "pm10": {
+            "q10": 284.4,
+            "q50": 451.5,
+            "q90": 702.1
+          },
+          "index": {
+            "q10": 332,
+            "q50": 427,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -2.4,
+            "recent_buildup": 5.4,
+            "regional_pollution": 2.6,
+            "time_of_day": -9.6
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T08:30:00Z",
+          "horizon_h": 12,
+          "pm25": {
+            "q10": 154.9,
+            "q50": 254.0,
+            "q90": 402.6
+          },
+          "pm10": {
+            "q10": 271.1,
+            "q50": 444.5,
+            "q90": 704.6
+          },
+          "index": {
+            "q10": 327,
+            "q50": 417,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -4.8,
+            "recent_buildup": 4.8,
+            "regional_pollution": 2.2,
+            "time_of_day": -10.2
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        }
+      ],
+      "summary": {
+        "key": "explain.rising.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+      },
+      "persistence_pm25": 262.0,
+      "cams_pm25": 183.4,
+      "verdicts": {
+        "healthy_adult:walk": "AVOID",
+        "healthy_adult:run_exercise": "AVOID",
+        "healthy_adult:cycling_commute": "AVOID",
+        "healthy_adult:two_wheeler_commute": "AVOID",
+        "healthy_adult:kids_outdoor_play": "AVOID",
+        "healthy_adult:outdoor_work_shift": "AVOID",
+        "respiratory:walk": "AVOID",
+        "respiratory:run_exercise": "AVOID",
+        "respiratory:cycling_commute": "AVOID",
+        "respiratory:two_wheeler_commute": "AVOID",
+        "respiratory:kids_outdoor_play": "AVOID",
+        "respiratory:outdoor_work_shift": "AVOID",
+        "heart:walk": "AVOID",
+        "heart:run_exercise": "AVOID",
+        "heart:cycling_commute": "AVOID",
+        "heart:two_wheeler_commute": "AVOID",
+        "heart:kids_outdoor_play": "AVOID",
+        "heart:outdoor_work_shift": "AVOID",
+        "child:walk": "AVOID",
+        "child:run_exercise": "AVOID",
+        "child:cycling_commute": "AVOID",
+        "child:two_wheeler_commute": "AVOID",
+        "child:kids_outdoor_play": "AVOID",
+        "child:outdoor_work_shift": "AVOID",
+        "elderly:walk": "AVOID",
+        "elderly:run_exercise": "AVOID",
+        "elderly:cycling_commute": "AVOID",
+        "elderly:two_wheeler_commute": "AVOID",
+        "elderly:kids_outdoor_play": "AVOID",
+        "elderly:outdoor_work_shift": "AVOID",
+        "pregnant:walk": "AVOID",
+        "pregnant:run_exercise": "AVOID",
+        "pregnant:cycling_commute": "AVOID",
+        "pregnant:two_wheeler_commute": "AVOID",
+        "pregnant:kids_outdoor_play": "AVOID",
+        "pregnant:outdoor_work_shift": "AVOID",
+        "outdoor_worker:walk": "REDUCE_EXPOSURE",
+        "outdoor_worker:run_exercise": "REDUCE_EXPOSURE",
+        "outdoor_worker:cycling_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:two_wheeler_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:kids_outdoor_play": "REDUCE_EXPOSURE",
+        "outdoor_worker:outdoor_work_shift": "REDUCE_EXPOSURE"
+      }
+    },
+    {
+      "time": "2025-11-12T21:30:00Z",
+      "observed": {
+        "pm25": 281.0,
+        "pm10": 477.7,
+        "index": 460,
+        "band": "severe"
+      },
+      "forecast_hours": [
+        {
+          "target_time": "2025-11-12T22:30:00Z",
+          "horizon_h": 1,
+          "pm25": {
+            "q10": 243.2,
+            "q50": 293.0,
+            "q90": 367.7
+          },
+          "pm10": {
+            "q10": 425.6,
+            "q50": 512.8,
+            "q90": 643.5
+          },
+          "index": {
+            "q10": 395,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-12T23:30:00Z",
+          "horizon_h": 2,
+          "pm25": {
+            "q10": 240.6,
+            "q50": 297.0,
+            "q90": 381.6
+          },
+          "pm10": {
+            "q10": 421.1,
+            "q50": 519.8,
+            "q90": 667.8
+          },
+          "index": {
+            "q10": 393,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T00:30:00Z",
+          "horizon_h": 3,
+          "pm25": {
+            "q10": 237.8,
+            "q50": 301.0,
+            "q90": 395.8
+          },
+          "pm10": {
+            "q10": 416.2,
+            "q50": 526.8,
+            "q90": 692.6
+          },
+          "index": {
+            "q10": 391,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T01:30:00Z",
+          "horizon_h": 4,
+          "pm25": {
+            "q10": 234.8,
+            "q50": 305.0,
+            "q90": 410.2
+          },
+          "pm10": {
+            "q10": 410.9,
+            "q50": 533.8,
+            "q90": 717.9
+          },
+          "index": {
+            "q10": 388,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 14.4,
+            "recent_buildup": 9.6,
+            "regional_pollution": 5.4,
+            "time_of_day": -5.4
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T02:30:00Z",
+          "horizon_h": 5,
+          "pm25": {
+            "q10": 225.8,
+            "q50": 301.0,
+            "q90": 413.9
+          },
+          "pm10": {
+            "q10": 395.2,
+            "q50": 526.8,
+            "q90": 724.3
+          },
+          "index": {
+            "q10": 382,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T03:30:00Z",
+          "horizon_h": 6,
+          "pm25": {
+            "q10": 216.8,
+            "q50": 297.0,
+            "q90": 417.3
+          },
+          "pm10": {
+            "q10": 379.4,
+            "q50": 519.8,
+            "q90": 730.3
+          },
+          "index": {
+            "q10": 375,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T04:30:00Z",
+          "horizon_h": 7,
+          "pm25": {
+            "q10": 208.0,
+            "q50": 293.0,
+            "q90": 420.5
+          },
+          "pm10": {
+            "q10": 364.0,
+            "q50": 512.8,
+            "q90": 735.9
+          },
+          "index": {
+            "q10": 368,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T05:30:00Z",
+          "horizon_h": 8,
+          "pm25": {
+            "q10": 199.4,
+            "q50": 289.0,
+            "q90": 423.4
+          },
+          "pm10": {
+            "q10": 348.9,
+            "q50": 505.8,
+            "q90": 740.9
+          },
+          "index": {
+            "q10": 361,
+            "q50": 495,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 4.8,
+            "recent_buildup": 7.2,
+            "regional_pollution": 3.8,
+            "time_of_day": -7.8
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T06:30:00Z",
+          "horizon_h": 9,
+          "pm25": {
+            "q10": 190.9,
+            "q50": 285.0,
+            "q90": 426.1
+          },
+          "pm10": {
+            "q10": 334.1,
+            "q50": 498.8,
+            "q90": 745.7
+          },
+          "index": {
+            "q10": 355,
+            "q50": 486,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 2.4,
+            "recent_buildup": 6.6,
+            "regional_pollution": 3.4,
+            "time_of_day": -8.4
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T07:30:00Z",
+          "horizon_h": 10,
+          "pm25": {
+            "q10": 182.7,
+            "q50": 281.0,
+            "q90": 428.5
+          },
+          "pm10": {
+            "q10": 319.7,
+            "q50": 491.8,
+            "q90": 749.9
+          },
+          "index": {
+            "q10": 349,
+            "q50": 477,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 0.0,
+            "recent_buildup": 6.0,
+            "regional_pollution": 3.0,
+            "time_of_day": -9.0
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T08:30:00Z",
+          "horizon_h": 11,
+          "pm25": {
+            "q10": 174.5,
+            "q50": 277.0,
+            "q90": 430.7
+          },
+          "pm10": {
+            "q10": 305.4,
+            "q50": 484.8,
+            "q90": 753.7
+          },
+          "index": {
+            "q10": 342,
+            "q50": 469,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -2.4,
+            "recent_buildup": 5.4,
+            "regional_pollution": 2.6,
+            "time_of_day": -9.6
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T09:30:00Z",
+          "horizon_h": 12,
+          "pm25": {
+            "q10": 166.5,
+            "q50": 273.0,
+            "q90": 432.7
+          },
+          "pm10": {
+            "q10": 291.4,
+            "q50": 477.8,
+            "q90": 757.2
+          },
+          "index": {
+            "q10": 336,
+            "q50": 460,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -4.8,
+            "recent_buildup": 4.8,
+            "regional_pollution": 2.2,
+            "time_of_day": -10.2
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        }
+      ],
+      "summary": {
+        "key": "explain.rising.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+      },
+      "persistence_pm25": 281.0,
+      "cams_pm25": 196.7,
+      "verdicts": {
+        "healthy_adult:walk": "AVOID",
+        "healthy_adult:run_exercise": "AVOID",
+        "healthy_adult:cycling_commute": "AVOID",
+        "healthy_adult:two_wheeler_commute": "AVOID",
+        "healthy_adult:kids_outdoor_play": "AVOID",
+        "healthy_adult:outdoor_work_shift": "AVOID",
+        "respiratory:walk": "AVOID",
+        "respiratory:run_exercise": "AVOID",
+        "respiratory:cycling_commute": "AVOID",
+        "respiratory:two_wheeler_commute": "AVOID",
+        "respiratory:kids_outdoor_play": "AVOID",
+        "respiratory:outdoor_work_shift": "AVOID",
+        "heart:walk": "AVOID",
+        "heart:run_exercise": "AVOID",
+        "heart:cycling_commute": "AVOID",
+        "heart:two_wheeler_commute": "AVOID",
+        "heart:kids_outdoor_play": "AVOID",
+        "heart:outdoor_work_shift": "AVOID",
+        "child:walk": "AVOID",
+        "child:run_exercise": "AVOID",
+        "child:cycling_commute": "AVOID",
+        "child:two_wheeler_commute": "AVOID",
+        "child:kids_outdoor_play": "AVOID",
+        "child:outdoor_work_shift": "AVOID",
+        "elderly:walk": "AVOID",
+        "elderly:run_exercise": "AVOID",
+        "elderly:cycling_commute": "AVOID",
+        "elderly:two_wheeler_commute": "AVOID",
+        "elderly:kids_outdoor_play": "AVOID",
+        "elderly:outdoor_work_shift": "AVOID",
+        "pregnant:walk": "AVOID",
+        "pregnant:run_exercise": "AVOID",
+        "pregnant:cycling_commute": "AVOID",
+        "pregnant:two_wheeler_commute": "AVOID",
+        "pregnant:kids_outdoor_play": "AVOID",
+        "pregnant:outdoor_work_shift": "AVOID",
+        "outdoor_worker:walk": "REDUCE_EXPOSURE",
+        "outdoor_worker:run_exercise": "REDUCE_EXPOSURE",
+        "outdoor_worker:cycling_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:two_wheeler_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:kids_outdoor_play": "REDUCE_EXPOSURE",
+        "outdoor_worker:outdoor_work_shift": "REDUCE_EXPOSURE"
+      }
+    },
+    {
+      "time": "2025-11-12T22:30:00Z",
+      "observed": {
+        "pm25": 274.0,
+        "pm10": 465.8,
+        "index": 445,
+        "band": "severe"
+      },
+      "forecast_hours": [
+        {
+          "target_time": "2025-11-12T23:30:00Z",
+          "horizon_h": 1,
+          "pm25": {
+            "q10": 237.4,
+            "q50": 286.0,
+            "q90": 358.9
+          },
+          "pm10": {
+            "q10": 415.4,
+            "q50": 500.5,
+            "q90": 628.1
+          },
+          "index": {
+            "q10": 390,
+            "q50": 487,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T00:30:00Z",
+          "horizon_h": 2,
+          "pm25": {
+            "q10": 234.9,
+            "q50": 290.0,
+            "q90": 372.7
+          },
+          "pm10": {
+            "q10": 411.1,
+            "q50": 507.5,
+            "q90": 652.2
+          },
+          "index": {
+            "q10": 388,
+            "q50": 497,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T01:30:00Z",
+          "horizon_h": 3,
+          "pm25": {
+            "q10": 232.3,
+            "q50": 294.0,
+            "q90": 386.6
+          },
+          "pm10": {
+            "q10": 406.5,
+            "q50": 514.5,
+            "q90": 676.6
+          },
+          "index": {
+            "q10": 386,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T02:30:00Z",
+          "horizon_h": 4,
+          "pm25": {
+            "q10": 229.5,
+            "q50": 298.0,
+            "q90": 400.8
+          },
+          "pm10": {
+            "q10": 401.6,
+            "q50": 521.5,
+            "q90": 701.4
+          },
+          "index": {
+            "q10": 385,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 14.4,
+            "recent_buildup": 9.6,
+            "regional_pollution": 5.4,
+            "time_of_day": -5.4
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T03:30:00Z",
+          "horizon_h": 5,
+          "pm25": {
+            "q10": 220.5,
+            "q50": 294.0,
+            "q90": 404.2
+          },
+          "pm10": {
+            "q10": 385.9,
+            "q50": 514.5,
+            "q90": 707.4
+          },
+          "index": {
+            "q10": 377,
+            "q50": 500,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T04:30:00Z",
+          "horizon_h": 6,
+          "pm25": {
+            "q10": 211.7,
+            "q50": 290.0,
+            "q90": 407.4
+          },
+          "pm10": {
+            "q10": 370.5,
+            "q50": 507.5,
+            "q90": 712.9
+          },
+          "index": {
+            "q10": 371,
+            "q50": 497,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T05:30:00Z",
+          "horizon_h": 7,
+          "pm25": {
+            "q10": 203.1,
+            "q50": 286.0,
+            "q90": 410.4
+          },
+          "pm10": {
+            "q10": 355.4,
+            "q50": 500.5,
+            "q90": 718.2
+          },
+          "index": {
+            "q10": 364,
+            "q50": 487,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T06:30:00Z",
+          "horizon_h": 8,
+          "pm25": {
+            "q10": 194.6,
+            "q50": 282.0,
+            "q90": 413.1
+          },
+          "pm10": {
+            "q10": 340.6,
+            "q50": 493.5,
+            "q90": 722.9
+          },
+          "index": {
+            "q10": 358,
+            "q50": 480,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 4.8,
+            "recent_buildup": 7.2,
+            "regional_pollution": 3.8,
+            "time_of_day": -7.8
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T07:30:00Z",
+          "horizon_h": 9,
+          "pm25": {
+            "q10": 186.3,
+            "q50": 278.0,
+            "q90": 415.6
+          },
+          "pm10": {
+            "q10": 326.0,
+            "q50": 486.5,
+            "q90": 727.3
+          },
+          "index": {
+            "q10": 351,
+            "q50": 470,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 2.4,
+            "recent_buildup": 6.6,
+            "regional_pollution": 3.4,
+            "time_of_day": -8.4
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T08:30:00Z",
+          "horizon_h": 10,
+          "pm25": {
+            "q10": 178.1,
+            "q50": 274.0,
+            "q90": 417.8
+          },
+          "pm10": {
+            "q10": 311.7,
+            "q50": 479.5,
+            "q90": 731.1
+          },
+          "index": {
+            "q10": 345,
+            "q50": 462,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 0.0,
+            "recent_buildup": 6.0,
+            "regional_pollution": 3.0,
+            "time_of_day": -9.0
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T09:30:00Z",
+          "horizon_h": 11,
+          "pm25": {
+            "q10": 170.1,
+            "q50": 270.0,
+            "q90": 419.8
+          },
+          "pm10": {
+            "q10": 297.7,
+            "q50": 472.5,
+            "q90": 734.6
+          },
+          "index": {
+            "q10": 339,
+            "q50": 452,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -2.4,
+            "recent_buildup": 5.4,
+            "regional_pollution": 2.6,
+            "time_of_day": -9.6
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T10:30:00Z",
+          "horizon_h": 12,
+          "pm25": {
+            "q10": 162.3,
+            "q50": 266.0,
+            "q90": 421.6
+          },
+          "pm10": {
+            "q10": 284.0,
+            "q50": 465.5,
+            "q90": 737.8
+          },
+          "index": {
+            "q10": 332,
+            "q50": 445,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -4.8,
+            "recent_buildup": 4.8,
+            "regional_pollution": 2.2,
+            "time_of_day": -10.2
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        }
+      ],
+      "summary": {
+        "key": "explain.rising.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+      },
+      "persistence_pm25": 274.0,
+      "cams_pm25": 191.8,
+      "verdicts": {
+        "healthy_adult:walk": "AVOID",
+        "healthy_adult:run_exercise": "AVOID",
+        "healthy_adult:cycling_commute": "AVOID",
+        "healthy_adult:two_wheeler_commute": "AVOID",
+        "healthy_adult:kids_outdoor_play": "AVOID",
+        "healthy_adult:outdoor_work_shift": "AVOID",
+        "respiratory:walk": "AVOID",
+        "respiratory:run_exercise": "AVOID",
+        "respiratory:cycling_commute": "AVOID",
+        "respiratory:two_wheeler_commute": "AVOID",
+        "respiratory:kids_outdoor_play": "AVOID",
+        "respiratory:outdoor_work_shift": "AVOID",
+        "heart:walk": "AVOID",
+        "heart:run_exercise": "AVOID",
+        "heart:cycling_commute": "AVOID",
+        "heart:two_wheeler_commute": "AVOID",
+        "heart:kids_outdoor_play": "AVOID",
+        "heart:outdoor_work_shift": "AVOID",
+        "child:walk": "AVOID",
+        "child:run_exercise": "AVOID",
+        "child:cycling_commute": "AVOID",
+        "child:two_wheeler_commute": "AVOID",
+        "child:kids_outdoor_play": "AVOID",
+        "child:outdoor_work_shift": "AVOID",
+        "elderly:walk": "AVOID",
+        "elderly:run_exercise": "AVOID",
+        "elderly:cycling_commute": "AVOID",
+        "elderly:two_wheeler_commute": "AVOID",
+        "elderly:kids_outdoor_play": "AVOID",
+        "elderly:outdoor_work_shift": "AVOID",
+        "pregnant:walk": "AVOID",
+        "pregnant:run_exercise": "AVOID",
+        "pregnant:cycling_commute": "AVOID",
+        "pregnant:two_wheeler_commute": "AVOID",
+        "pregnant:kids_outdoor_play": "AVOID",
+        "pregnant:outdoor_work_shift": "AVOID",
+        "outdoor_worker:walk": "REDUCE_EXPOSURE",
+        "outdoor_worker:run_exercise": "REDUCE_EXPOSURE",
+        "outdoor_worker:cycling_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:two_wheeler_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:kids_outdoor_play": "REDUCE_EXPOSURE",
+        "outdoor_worker:outdoor_work_shift": "REDUCE_EXPOSURE"
+      }
+    },
+    {
+      "time": "2025-11-12T23:30:00Z",
+      "observed": {
+        "pm25": 255.0,
+        "pm10": 433.5,
+        "index": 405,
+        "band": "severe"
+      },
+      "forecast_hours": [
+        {
+          "target_time": "2025-11-13T00:30:00Z",
+          "horizon_h": 1,
+          "pm25": {
+            "q10": 221.6,
+            "q50": 267.0,
+            "q90": 335.1
+          },
+          "pm10": {
+            "q10": 387.8,
+            "q50": 467.2,
+            "q90": 586.4
+          },
+          "index": {
+            "q10": 379,
+            "q50": 446,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T01:30:00Z",
+          "horizon_h": 2,
+          "pm25": {
+            "q10": 219.5,
+            "q50": 271.0,
+            "q90": 348.2
+          },
+          "pm10": {
+            "q10": 384.1,
+            "q50": 474.2,
+            "q90": 609.4
+          },
+          "index": {
+            "q10": 377,
+            "q50": 455,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T02:30:00Z",
+          "horizon_h": 3,
+          "pm25": {
+            "q10": 217.2,
+            "q50": 275.0,
+            "q90": 361.6
+          },
+          "pm10": {
+            "q10": 380.1,
+            "q50": 481.2,
+            "q90": 632.8
+          },
+          "index": {
+            "q10": 375,
+            "q50": 464,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T03:30:00Z",
+          "horizon_h": 4,
+          "pm25": {
+            "q10": 214.8,
+            "q50": 279.0,
+            "q90": 375.3
+          },
+          "pm10": {
+            "q10": 375.9,
+            "q50": 488.2,
+            "q90": 656.8
+          },
+          "index": {
+            "q10": 373,
+            "q50": 472,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 14.4,
+            "recent_buildup": 9.6,
+            "regional_pollution": 5.4,
+            "time_of_day": -5.4
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T04:30:00Z",
+          "horizon_h": 5,
+          "pm25": {
+            "q10": 206.2,
+            "q50": 275.0,
+            "q90": 378.1
+          },
+          "pm10": {
+            "q10": 360.8,
+            "q50": 481.2,
+            "q90": 661.7
+          },
+          "index": {
+            "q10": 366,
+            "q50": 464,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 12.0,
+            "recent_buildup": 9.0,
+            "regional_pollution": 5.0,
+            "time_of_day": -6.0
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T05:30:00Z",
+          "horizon_h": 6,
+          "pm25": {
+            "q10": 197.8,
+            "q50": 271.0,
+            "q90": 380.8
+          },
+          "pm10": {
+            "q10": 346.2,
+            "q50": 474.2,
+            "q90": 666.4
+          },
+          "index": {
+            "q10": 360,
+            "q50": 455,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 9.6,
+            "recent_buildup": 8.4,
+            "regional_pollution": 4.6,
+            "time_of_day": -6.6
+          },
+          "explanation": {
+            "key": "explain.rising.ventilation",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+          }
+        },
+        {
+          "target_time": "2025-11-13T06:30:00Z",
+          "horizon_h": 7,
+          "pm25": {
+            "q10": 189.6,
+            "q50": 267.0,
+            "q90": 383.1
+          },
+          "pm10": {
+            "q10": 331.8,
+            "q50": 467.2,
+            "q90": 670.4
+          },
+          "index": {
+            "q10": 354,
+            "q50": 446,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 7.2,
+            "recent_buildup": 7.8,
+            "regional_pollution": 4.2,
+            "time_of_day": -7.2
+          },
+          "explanation": {
+            "key": "explain.rising.recent_buildup",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because pollution has been building up over the last few hours."
+          }
+        },
+        {
+          "target_time": "2025-11-13T07:30:00Z",
+          "horizon_h": 8,
+          "pm25": {
+            "q10": 181.5,
+            "q50": 263.0,
+            "q90": 385.3
+          },
+          "pm10": {
+            "q10": 317.6,
+            "q50": 460.2,
+            "q90": 674.3
+          },
+          "index": {
+            "q10": 348,
+            "q50": 437,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 4.8,
+            "recent_buildup": 7.2,
+            "regional_pollution": 3.8,
+            "time_of_day": -7.8
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T08:30:00Z",
+          "horizon_h": 9,
+          "pm25": {
+            "q10": 173.5,
+            "q50": 259.0,
+            "q90": 387.2
+          },
+          "pm10": {
+            "q10": 303.6,
+            "q50": 453.2,
+            "q90": 677.6
+          },
+          "index": {
+            "q10": 342,
+            "q50": 429,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 2.4,
+            "recent_buildup": 6.6,
+            "regional_pollution": 3.4,
+            "time_of_day": -8.4
+          },
+          "explanation": {
+            "key": "explain.rising.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to rise, mainly because of the usual evening pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T09:30:00Z",
+          "horizon_h": 10,
+          "pm25": {
+            "q10": 165.8,
+            "q50": 255.0,
+            "q90": 388.9
+          },
+          "pm10": {
+            "q10": 290.2,
+            "q50": 446.2,
+            "q90": 680.6
+          },
+          "index": {
+            "q10": 336,
+            "q50": 420,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": 0.0,
+            "recent_buildup": 6.0,
+            "regional_pollution": 3.0,
+            "time_of_day": -9.0
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T10:30:00Z",
+          "horizon_h": 11,
+          "pm25": {
+            "q10": 158.1,
+            "q50": 251.0,
+            "q90": 390.3
+          },
+          "pm10": {
+            "q10": 276.7,
+            "q50": 439.2,
+            "q90": 683.0
+          },
+          "index": {
+            "q10": 329,
+            "q50": 411,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -2.4,
+            "recent_buildup": 5.4,
+            "regional_pollution": 2.6,
+            "time_of_day": -9.6
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        },
+        {
+          "target_time": "2025-11-13T11:30:00Z",
+          "horizon_h": 12,
+          "pm25": {
+            "q10": 150.7,
+            "q50": 247.0,
+            "q90": 391.5
+          },
+          "pm10": {
+            "q10": 263.7,
+            "q50": 432.2,
+            "q90": 685.1
+          },
+          "index": {
+            "q10": 324,
+            "q50": 402,
+            "q90": 500
+          },
+          "band": "severe",
+          "drivers": {
+            "ventilation": -4.8,
+            "recent_buildup": 4.8,
+            "regional_pollution": 2.2,
+            "time_of_day": -10.2
+          },
+          "explanation": {
+            "key": "explain.falling.time_of_day",
+            "params": {
+              "pollutant": "PM2.5"
+            },
+            "text": "The model expects PM2.5 to fall, mainly because of the usual daytime pattern at this location."
+          }
+        }
+      ],
+      "summary": {
+        "key": "explain.rising.ventilation",
+        "params": {
+          "pollutant": "PM2.5"
+        },
+        "text": "The model expects PM2.5 to rise, mainly because of weaker ventilation (calmer winds and a shallower mixing layer)."
+      },
+      "persistence_pm25": 255.0,
+      "cams_pm25": 178.5,
+      "verdicts": {
+        "healthy_adult:walk": "AVOID",
+        "healthy_adult:run_exercise": "AVOID",
+        "healthy_adult:cycling_commute": "AVOID",
+        "healthy_adult:two_wheeler_commute": "AVOID",
+        "healthy_adult:kids_outdoor_play": "AVOID",
+        "healthy_adult:outdoor_work_shift": "AVOID",
+        "respiratory:walk": "AVOID",
+        "respiratory:run_exercise": "AVOID",
+        "respiratory:cycling_commute": "AVOID",
+        "respiratory:two_wheeler_commute": "AVOID",
+        "respiratory:kids_outdoor_play": "AVOID",
+        "respiratory:outdoor_work_shift": "AVOID",
+        "heart:walk": "AVOID",
+        "heart:run_exercise": "AVOID",
+        "heart:cycling_commute": "AVOID",
+        "heart:two_wheeler_commute": "AVOID",
+        "heart:kids_outdoor_play": "AVOID",
+        "heart:outdoor_work_shift": "AVOID",
+        "child:walk": "AVOID",
+        "child:run_exercise": "AVOID",
+        "child:cycling_commute": "AVOID",
+        "child:two_wheeler_commute": "AVOID",
+        "child:kids_outdoor_play": "AVOID",
+        "child:outdoor_work_shift": "AVOID",
+        "elderly:walk": "AVOID",
+        "elderly:run_exercise": "AVOID",
+        "elderly:cycling_commute": "AVOID",
+        "elderly:two_wheeler_commute": "AVOID",
+        "elderly:kids_outdoor_play": "AVOID",
+        "elderly:outdoor_work_shift": "AVOID",
+        "pregnant:walk": "AVOID",
+        "pregnant:run_exercise": "AVOID",
+        "pregnant:cycling_commute": "AVOID",
+        "pregnant:two_wheeler_commute": "AVOID",
+        "pregnant:kids_outdoor_play": "AVOID",
+        "pregnant:outdoor_work_shift": "AVOID",
+        "outdoor_worker:walk": "REDUCE_EXPOSURE",
+        "outdoor_worker:run_exercise": "REDUCE_EXPOSURE",
+        "outdoor_worker:cycling_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:two_wheeler_commute": "REDUCE_EXPOSURE",
+        "outdoor_worker:kids_outdoor_play": "REDUCE_EXPOSURE",
+        "outdoor_worker:outdoor_work_shift": "REDUCE_EXPOSURE"
+      }
+    }
+  ]
+}

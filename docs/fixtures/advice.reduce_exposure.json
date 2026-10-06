@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "station_id": "dl-rohini",
+  "profile": "outdoor_worker",
+  "activity": "outdoor_work_shift",
+  "duration_h": 8,
+  "forecast_issued_at": "2026-10-10T04:00:00Z",
+  "model_version": "lgbm-v1-fixture",
+  "stale": false,
+  "age_minutes": 5,
+  "verdict": "REDUCE_EXPOSURE",
+  "reason": {
+    "key": "reason.outdoor_worker.very_poor",
+    "params": {
+      "band": "Very Poor"
+    },
+    "text": "Air quality is Very Poor. Over a long outdoor shift, exposure at this level adds up."
+  },
+  "advice": [
+    {
+      "key": "advice.n95_on_shift",
+      "params": {},
+      "text": "Wear a well-fitted N95 mask throughout the shift."
+    },
+    {
+      "key": "advice.indoor_breaks",
+      "params": {},
+      "text": "Take regular breaks indoors or in a cleaner space."
+    },
+    {
+      "key": "advice.use_best_window",
+      "params": {
+        "activity": "outdoor work shift",
+        "start": "14:30",
+        "end": "22:30"
+      },
+      "text": "Plan your outdoor work shift for 14:30-22:30 IST, when air is expected to be cleanest."
+    }
+  ],
+  "basis": "q50",
+  "best_window": {
+    "start": "2026-10-10T09:00:00Z",
+    "end": "2026-10-10T17:00:00Z",
+    "worst_index": 311,
+    "band": "very_poor",
+    "improves_on_now": true
+  }
+}
