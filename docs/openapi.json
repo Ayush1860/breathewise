@@ -1316,6 +1316,16 @@
               }
             },
             "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No data available yet"
           }
         },
         "summary": "Post Advice"
@@ -1404,6 +1414,16 @@
               }
             },
             "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No data available yet"
           }
         },
         "summary": "Get Current Aqi"
@@ -1460,6 +1480,16 @@
               }
             },
             "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No data available yet"
           }
         },
         "summary": "Get Forecast"
@@ -1516,6 +1546,16 @@
               }
             },
             "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No data available yet"
           }
         },
         "summary": "Get Metrics"
@@ -1611,6 +1651,20 @@
                 }
               ],
               "title": "Model Version"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pollutant",
+            "required": false,
+            "schema": {
+              "default": "pm25",
+              "enum": [
+                "pm25",
+                "pm10"
+              ],
+              "title": "Pollutant",
+              "type": "string"
             }
           }
         ],
