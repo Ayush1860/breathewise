@@ -1,4 +1,6 @@
-from datetime import UTC, datetime, timedelta
+import json
+from datetime import UTC, datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
@@ -7,6 +9,7 @@ from backend.schemas import (
     AqiValue,
     Band,
     BestWindow,
+    CurrentAqiResponse,
     DriverGroup,
     ForecastHour,
     ForecastResponse,
@@ -14,11 +17,13 @@ from backend.schemas import (
     Message,
     Pollutant,
     Quantiles,
+    RefreshResponse,
     ReplayHour,
     ReplayObservation,
     Verdict,
 )
 
+FIXTURES = Path(__file__).resolve().parents[2] / "docs" / "fixtures"
 T0 = datetime(2026, 10, 10, 4, 0, tzinfo=UTC)
 MSG = Message(key="explain.falling.ventilation", params={"pollutant": "PM2.5"}, text="x")
 
@@ -149,3 +154,58 @@ def test_replay_verdict_keys_must_be_profile_activity_pairs():
             cams_pm25=110,
             verdicts={"nobody:walk": Verdict.GO},
         )
+
+
+IST = timezone(timedelta(hours=5, minutes=30))
+
+
+def test_non_utc_aware_datetime_is_normalised_to_utc():
+    window = BestWindow(
+        start=datetime(2026, 10, 10, 9, 30, tzinfo=IST),
+        end=datetime(2026, 10, 10, 11, 30, tzinfo=IST),
+        worst_index=150,
+        band=Band.MODERATELY_POLLUTED,
+        improves_on_now=True,
+    )
+    assert window.model_dump(mode="json")["start"] == "2026-10-10T04:00:00Z"
+
+
+def test_infinity_and_nan_rejected():
+    with pytest.raises(ValidationError):
+        Quantiles(q10=1, q50=2, q90=float("inf"))
+    with pytest.raises(ValidationError):
+        ForecastHour(**{**_hour(1).model_dump(), "drivers": {"ventilation": float("nan")}})
+
+
+def test_forecast_target_time_must_equal_issued_plus_horizon():
+    hours = [_hour(h) for h in range(1, 13)]
+    with pytest.raises(ValidationError, match="target_time"):
+        ForecastResponse(**{**_forecast(hours).__dict__, "issued_at": T0 + timedelta(hours=1)})
+
+
+def test_forecast_hour_band_must_match_median_index():
+    with pytest.raises(ValidationError, match="band"):
+        ForecastHour(**{**_hour(1).model_dump(), "band": Band.SEVERE})
+
+
+def test_hourly_index_and_band_must_be_set_together():
+    current = json.loads((FIXTURES / "aqi_current.fresh.json").read_text(encoding="utf-8"))
+    current["hourly_band"] = None
+    with pytest.raises(ValidationError, match="hourly_index"):
+        CurrentAqiResponse.model_validate(current)
+
+
+def test_dominant_pollutant_must_be_present():
+    with pytest.raises(ValidationError, match="dominant_pollutant"):
+        AqiValue(
+            status="ok",
+            aqi=120,
+            band=Band.MODERATELY_POLLUTED,
+            dominant_pollutant=Pollutant.SO2,
+            pollutants_present=[Pollutant.PM25, Pollutant.PM10, Pollutant.NO2],
+        )
+
+
+def test_refused_refresh_requires_retry_after():
+    with pytest.raises(ValidationError, match="retry_after_s"):
+        RefreshResponse(accepted=False, message=MSG)

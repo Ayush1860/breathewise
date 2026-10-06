@@ -5,10 +5,12 @@ docs/fixtures/ are generated from them; tests fail if either drifts.
 All datetimes are timezone-aware UTC.
 """
 
+from datetime import UTC, timedelta
 from enum import StrEnum
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import (
+    AfterValidator,
     AwareDatetime,
     BaseModel,
     ConfigDict,
@@ -77,8 +79,33 @@ class DriverGroup(StrEnum):
     UPWIND_FIRES = "upwind_fires"
 
 
+UtcDatetime = Annotated[AwareDatetime, AfterValidator(lambda d: d.astimezone(UTC))]
+"""Timezone-aware datetime, normalised to UTC (serialises with a trailing Z)."""
+
+_BAND_UPPER = (
+    (50, Band.GOOD),
+    (100, Band.SATISFACTORY),
+    (200, Band.MODERATELY_POLLUTED),
+    (300, Band.POOR),
+    (400, Band.VERY_POOR),
+)
+
+
+def band_for_index(index: int) -> Band:
+    """NAQI band for an index value (CPCB category ranges)."""
+    for upper, band in _BAND_UPPER:
+        if index <= upper:
+            return band
+    return Band.SEVERE
+
+
 class Model(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(
+        extra="forbid",
+        frozen=True,
+        allow_inf_nan=False,
+        json_schema_serialization_defaults_required=True,
+    )
 
 
 class Message(Model):
@@ -100,7 +127,7 @@ class Station(Model):
 
 
 class StationsResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     stations: list[Station]
 
 
@@ -127,13 +154,17 @@ class AqiValue(Model):
             raise ValueError("status 'ok' requires aqi, band and dominant_pollutant")
         if self.status == "insufficient_data" and any(v is not None for v in filled):
             raise ValueError("status 'insufficient_data' must not carry aqi, band or dominant")
+        if self.dominant_pollutant is not None and (
+            self.dominant_pollutant not in self.pollutants_present
+        ):
+            raise ValueError("dominant_pollutant must be one of pollutants_present")
         return self
 
 
 class CurrentAqiResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     station: Station
-    observed_at: AwareDatetime
+    observed_at: UtcDatetime
     source: Source
     stale: bool
     age_minutes: int = Field(ge=0)
@@ -143,6 +174,12 @@ class CurrentAqiResponse(Model):
     )
     hourly_band: Band | None = None
     sub_indices: list[SubIndex]
+
+    @model_validator(mode="after")
+    def _hourly_pair(self) -> "CurrentAqiResponse":
+        if (self.hourly_index is None) != (self.hourly_band is None):
+            raise ValueError("hourly_index and hourly_band must be set together")
+        return self
 
 
 def _check_ordered(q10: float, q50: float, q90: float) -> None:
@@ -177,7 +214,7 @@ class IndexQuantiles(Model):
 
 
 class ForecastHour(Model):
-    target_time: AwareDatetime = Field(description="Start of the forecast hour (UTC)")
+    target_time: UtcDatetime = Field(description="Start of the forecast hour (UTC)")
     horizon_h: int = Field(ge=1, le=12)
     pm25: Quantiles
     pm10: Quantiles
@@ -188,11 +225,17 @@ class ForecastHour(Model):
     )
     explanation: Message
 
+    @model_validator(mode="after")
+    def _band_matches_index(self) -> "ForecastHour":
+        if self.band != band_for_index(self.index.q50):
+            raise ValueError("band must be the band of index.q50")
+        return self
+
 
 class ForecastResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     station_id: str
-    issued_at: AwareDatetime
+    issued_at: UtcDatetime
     model_version: str
     basis: Literal["pm_only"] = "pm_only"
     stale: bool
@@ -204,6 +247,9 @@ class ForecastResponse(Model):
     def _horizons_in_order(self) -> "ForecastResponse":
         if [h.horizon_h for h in self.hours] != list(range(1, 13)):
             raise ValueError("forecast horizons must be exactly 1..12 in order")
+        for hour in self.hours:
+            if hour.target_time != self.issued_at + timedelta(hours=hour.horizon_h):
+                raise ValueError("target_time must equal issued_at + horizon_h hours")
         return self
 
 
@@ -215,8 +261,8 @@ class AdviceRequest(Model):
 
 
 class BestWindow(Model):
-    start: AwareDatetime
-    end: AwareDatetime
+    start: UtcDatetime
+    end: UtcDatetime
     worst_index: int = Field(ge=0, le=500)
     band: Band
     improves_on_now: bool
@@ -229,12 +275,12 @@ class BestWindow(Model):
 
 
 class AdviceResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     station_id: str
     profile: Profile
     activity: Activity
     duration_h: int = Field(ge=1, le=12)
-    forecast_issued_at: AwareDatetime
+    forecast_issued_at: UtcDatetime
     model_version: str
     stale: bool
     age_minutes: int = Field(ge=0)
@@ -246,8 +292,8 @@ class AdviceResponse(Model):
 
 
 class ScoreboardPoint(Model):
-    target_time: AwareDatetime
-    issued_at: AwareDatetime
+    target_time: UtcDatetime
+    issued_at: UtcDatetime
     horizon_h: int = Field(ge=1, le=12)
     predicted: Quantiles
     actual: float | None = Field(default=None, ge=0)
@@ -260,11 +306,11 @@ class HorizonScore(Model):
 
 
 class ScoreboardResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     station_id: str
     model_version: str
     pollutant: Literal["pm25", "pm10"]
-    since: AwareDatetime
+    since: UtcDatetime
     points: list[ScoreboardPoint]
     per_horizon: list[HorizonScore]
 
@@ -285,11 +331,11 @@ class CategoryAccuracy(Model):
 
 
 class MetricsResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     model_version: str
-    trained_until: AwareDatetime
-    test_start: AwareDatetime
-    test_end: AwareDatetime
+    trained_until: UtcDatetime
+    test_start: UtcDatetime
+    test_end: UtcDatetime
     pm25: list[HorizonMetrics]
     pm10: list[HorizonMetrics]
     index_category_accuracy: list[CategoryAccuracy]
@@ -300,25 +346,31 @@ class RefreshResponse(Model):
     retry_after_s: int | None = Field(default=None, ge=0)
     message: Message
 
+    @model_validator(mode="after")
+    def _retry_after_when_refused(self) -> "RefreshResponse":
+        if not self.accepted and self.retry_after_s is None:
+            raise ValueError("retry_after_s is required when accepted is false")
+        return self
+
 
 class SourceHealth(Model):
     source: Source
-    last_success_at: AwareDatetime | None
-    last_failure_at: AwareDatetime | None
+    last_success_at: UtcDatetime | None
+    last_failure_at: UtcDatetime | None
     last_error: str | None
 
 
 class StationHealth(Model):
     station_id: str
-    last_observation_at: AwareDatetime | None
+    last_observation_at: UtcDatetime | None
     last_source: Source | None
 
 
 class HealthResponse(Model):
-    generated_at: AwareDatetime
+    generated_at: UtcDatetime
     status: Literal["ok", "degraded", "down"]
     model_version: str | None
-    last_forecast_at: AwareDatetime | None
+    last_forecast_at: UtcDatetime | None
     sources: list[SourceHealth]
     stations: list[StationHealth]
 
@@ -335,7 +387,7 @@ _ACTIVITIES = {a.value for a in Activity}
 
 
 class ReplayHour(Model):
-    time: AwareDatetime = Field(description="Issue time of this replay step")
+    time: UtcDatetime = Field(description="Issue time of this replay step")
     observed: ReplayObservation
     forecast_hours: list[ForecastHour] = Field(min_length=12, max_length=12)
     summary: Message
@@ -357,8 +409,8 @@ class ReplayEpisode(Model):
     episode_id: str
     title: str
     station: Station
-    start: AwareDatetime
-    end: AwareDatetime
+    start: UtcDatetime
+    end: UtcDatetime
     model_version: str
     hours: list[ReplayHour]
 
