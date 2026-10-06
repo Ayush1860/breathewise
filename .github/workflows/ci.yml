@@ -1,0 +1,75 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  python:
+    name: python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run black --check .
+      - run: uv run pytest -q
+      - name: No env files tracked
+        run: "! git ls-files | grep -E '(^|/)\\.env$'"
+
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  infra:
+    name: infra
+    runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: ap-south-1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/setup-sam@v2
+        if: hashFiles('infra/template.yaml') != ''
+        with:
+          use-installer: true
+      - name: sam validate
+        if: hashFiles('infra/template.yaml') != ''
+        run: sam validate --lint --template infra/template.yaml
+      - name: No template yet
+        if: hashFiles('infra/template.yaml') == ''
+        run: echo "infra/template.yaml not present yet; skipping"
+
+  frontend:
+    name: frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        if: hashFiles('frontend/package.json') != ''
+        with:
+          node-version: "20"
+      - if: hashFiles('frontend/package.json') != ''
+        run: npm ci
+      - if: hashFiles('frontend/package.json') != ''
+        run: npm run lint
+      - if: hashFiles('frontend/package.json') != ''
+        run: npm run typecheck
+      - if: hashFiles('frontend/package.json') != ''
+        run: npm run build
+      - if: hashFiles('frontend/package.json') == ''
+        run: echo "frontend not scaffolded yet; skipping"
+        working-directory: .
