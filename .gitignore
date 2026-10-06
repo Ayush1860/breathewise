@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Data and model artefacts (live in S3, never git)
+data/
+ml/artifacts/
+*.lgb
+*.parquet
+
+# Build output
+.aws-sam/
+build/
+dist/
+*.zip
+
+# Frontend
+node_modules/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
