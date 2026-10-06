@@ -78,3 +78,23 @@ def test_openapi_file_is_current():
     assert (
         Path(OPENAPI_PATH).read_text(encoding="utf-8") == expected
     ), "docs/openapi.json is stale; run: uv run python -m backend.scripts.export_openapi"
+
+
+def test_openapi_marks_always_sent_fields_required():
+    schemas = app.openapi()["components"]["schemas"]
+    assert "params" in schemas["Message"]["required"]
+    assert "basis" in schemas["ForecastResponse"]["required"]
+    assert "hourly_index" in schemas["CurrentAqiResponse"]["required"]
+
+
+def test_errors_use_error_response_shape():
+    response = client.get("/no-such-route")
+    assert response.status_code == 404
+    assert set(response.json()) == {"error", "message"}
+
+
+def test_openapi_declares_404_for_station_endpoints():
+    paths = app.openapi()["paths"]
+    for path in ("/aqi/current", "/aqi/forecast", "/scoreboard"):
+        assert "404" in paths[path]["get"]["responses"], path
+    assert "404" in paths["/advice"]["post"]["responses"]

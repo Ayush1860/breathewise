@@ -198,6 +198,9 @@
         },
         "required": [
           "status",
+          "aqi",
+          "band",
+          "dominant_pollutant",
           "pollutants_present"
         ],
         "title": "AqiValue",
@@ -353,6 +356,8 @@
           "stale",
           "age_minutes",
           "aqi",
+          "hourly_index",
+          "hourly_band",
           "sub_indices"
         ],
         "title": "CurrentAqiResponse",
@@ -368,6 +373,25 @@
         ],
         "title": "DriverGroup",
         "type": "string"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "title": "Error",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "message"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
       },
       "ForecastHour": {
         "additionalProperties": false,
@@ -479,6 +503,7 @@
           "station_id",
           "issued_at",
           "model_version",
+          "basis",
           "stale",
           "age_minutes",
           "summary",
@@ -643,6 +668,7 @@
         },
         "required": [
           "horizon_h",
+          "mae",
           "n"
         ],
         "title": "HorizonScore",
@@ -712,6 +738,7 @@
         },
         "required": [
           "key",
+          "params",
           "text"
         ],
         "title": "Message",
@@ -858,6 +885,7 @@
         },
         "required": [
           "accepted",
+          "retry_after_s",
           "message"
         ],
         "title": "RefreshResponse",
@@ -902,7 +930,8 @@
           "target_time",
           "issued_at",
           "horizon_h",
-          "predicted"
+          "predicted",
+          "actual"
         ],
         "title": "ScoreboardPoint",
         "type": "object"
@@ -1081,7 +1110,10 @@
           "station_id",
           "name",
           "lat",
-          "lon"
+          "lon",
+          "distance_km",
+          "coverage_pct",
+          "is_venue_default"
         ],
         "title": "Station",
         "type": "object"
@@ -1265,6 +1297,16 @@
             },
             "description": "Successful Response"
           },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unknown station_id"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -1343,6 +1385,16 @@
             },
             "description": "Successful Response"
           },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unknown station_id"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -1388,6 +1440,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unknown station_id"
           },
           "422": {
             "content": {
@@ -1562,6 +1624,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unknown station_id"
           },
           "422": {
             "content": {

@@ -8,14 +8,17 @@ rate_limited) so the UI can exercise every data state.
 import os
 from typing import Annotated
 
-from fastapi import FastAPI, Header, Query, Response
+from fastapi import FastAPI, Header, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException
 
 from backend import fixture_store
 from backend.schemas import (
     AdviceRequest,
     AdviceResponse,
     CurrentAqiResponse,
+    ErrorResponse,
     ForecastResponse,
     HealthResponse,
     MetricsResponse,
@@ -39,6 +42,14 @@ app.add_middleware(
     allow_headers=["Content-Type", "X-Mock-Scenario"],
 )
 
+NOT_FOUND = {404: {"model": ErrorResponse, "description": "Unknown station_id"}}
+
+
+@app.exception_handler(HTTPException)
+def _http_error(request: Request, exc: HTTPException) -> JSONResponse:
+    body = ErrorResponse(error=f"http_{exc.status_code}", message=str(exc.detail))
+    return JSONResponse(body.model_dump(), status_code=exc.status_code, headers=exc.headers)
+
 
 @app.get("/stations", response_model=StationsResponse)
 def get_stations(
@@ -50,7 +61,7 @@ def get_stations(
     return fixture_store.load("stations", scenario)
 
 
-@app.get("/aqi/current", response_model=CurrentAqiResponse)
+@app.get("/aqi/current", response_model=CurrentAqiResponse, responses=NOT_FOUND)
 def get_current_aqi(
     station_id: str | None = None,
     lat: float | None = None,
@@ -60,17 +71,17 @@ def get_current_aqi(
     return fixture_store.load("aqi_current", scenario)
 
 
-@app.get("/aqi/forecast", response_model=ForecastResponse)
+@app.get("/aqi/forecast", response_model=ForecastResponse, responses=NOT_FOUND)
 def get_forecast(station_id: str | None = None, scenario: MockScenario = "default"):
     return fixture_store.load("aqi_forecast", scenario)
 
 
-@app.post("/advice", response_model=AdviceResponse)
+@app.post("/advice", response_model=AdviceResponse, responses=NOT_FOUND)
 def post_advice(body: AdviceRequest, scenario: MockScenario = "default"):
     return fixture_store.load("advice", scenario)
 
 
-@app.get("/scoreboard", response_model=ScoreboardResponse)
+@app.get("/scoreboard", response_model=ScoreboardResponse, responses=NOT_FOUND)
 def get_scoreboard(
     station_id: str | None = None,
     model_version: str | None = None,
