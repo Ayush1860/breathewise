@@ -12,6 +12,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
+from backend.naqi import hourly_pm_index, sub_index
 from backend.schemas import (
     Activity,
     AdviceResponse,
@@ -45,6 +46,7 @@ from backend.schemas import (
     StationsResponse,
     SubIndex,
     Verdict,
+    band_for_index,
 )
 
 FIXTURE_DIR = Path(__file__).resolve().parents[2] / "docs" / "fixtures"
@@ -72,31 +74,6 @@ OTHER = Station(
     coverage_pct=95.2,
 )
 
-# Fixture-only PM breakpoints (CPCB NAQI). backend/naqi.py is the real implementation.
-Table = tuple[tuple[int, int, int, int], ...]
-_PM25: Table = (
-    (0, 30, 0, 50),
-    (31, 60, 51, 100),
-    (61, 90, 101, 200),
-    (91, 120, 201, 300),
-    (121, 250, 301, 400),
-    (251, 380, 401, 500),
-)
-_PM10: Table = (
-    (0, 50, 0, 50),
-    (51, 100, 51, 100),
-    (101, 250, 101, 200),
-    (251, 350, 201, 300),
-    (351, 430, 301, 400),
-    (431, 510, 401, 500),
-)
-_BAND_LIMITS = (
-    (50, Band.GOOD),
-    (100, Band.SATISFACTORY),
-    (200, Band.MODERATELY_POLLUTED),
-    (300, Band.POOR),
-    (400, Band.VERY_POOR),
-)
 _BAND_ORDER = list(Band)
 
 TEXT = {
@@ -141,23 +118,15 @@ def _msg(key: str, **params: str | int | float) -> Message:
     return Message(key=key, params=params, text=TEXT[key].format(**params))
 
 
-def _sub_index(conc: float, table: Table) -> int:
-    c = round(conc)
-    for lo, hi, ilo, ihi in table:
-        if c <= hi:
-            return round(ilo + (ihi - ilo) * (c - lo) / (hi - lo))
-    return 500
+def _sub_index(conc: float, pollutant: Pollutant) -> int:
+    return sub_index(pollutant, conc)
 
 
 def _pm_index(pm25: float, pm10: float) -> int:
-    return max(_sub_index(pm25, _PM25), _sub_index(pm10, _PM10))
+    return hourly_pm_index(pm25, pm10)
 
 
-def _band(index: int) -> Band:
-    for limit, band in _BAND_LIMITS:
-        if index <= limit:
-            return band
-    return Band.SEVERE
+_band = band_for_index
 
 
 def _ist(t: datetime) -> str:
@@ -243,13 +212,13 @@ def _current(
             pollutant=Pollutant.PM25,
             concentration=pm25_24h,
             unit="ug_m3",
-            sub_index=_sub_index(pm25_24h, _PM25),
+            sub_index=_sub_index(pm25_24h, Pollutant.PM25),
         ),
         SubIndex(
             pollutant=Pollutant.PM10,
             concentration=pm10_24h,
             unit="ug_m3",
-            sub_index=_sub_index(pm10_24h, _PM10),
+            sub_index=_sub_index(pm10_24h, Pollutant.PM10),
         ),
         SubIndex(pollutant=Pollutant.NO2, concentration=62.0, unit="ug_m3", sub_index=77),
         SubIndex(pollutant=Pollutant.O3, concentration=38.0, unit="ug_m3", sub_index=38),
@@ -258,7 +227,7 @@ def _current(
     if insufficient:
         subs = [s for s in subs if s.pollutant in (Pollutant.PM25, Pollutant.NO2)]
         aqi = AqiValue(status="insufficient_data", pollutants_present=[s.pollutant for s in subs])
-        hourly = _sub_index(pm25, _PM25)
+        hourly = _sub_index(pm25, Pollutant.PM25)
     else:
         top = max(subs, key=lambda s: s.sub_index)
         aqi = AqiValue(
