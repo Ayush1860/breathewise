@@ -218,3 +218,22 @@ class Store:
             )
             for item in items
         ]
+
+    def acquire_lock(self, name: str, ttl: timedelta, now: datetime) -> int | None:
+        """Global lock; returns None when acquired, else seconds until it frees up."""
+        expires = now + ttl
+        acquired = _conditional_put(
+            self.table,
+            {
+                "pk": "META",
+                "sk": f"LOCK#{name}",
+                "expires_at": expires.isoformat(),
+                "ttl": int(expires.timestamp()),
+            },
+            ConditionExpression="attribute_not_exists(pk) OR expires_at <= :now",
+            ExpressionAttributeValues={":now": now.isoformat()},
+        )
+        if acquired:
+            return None
+        item = self.table.get_item(Key={"pk": "META", "sk": f"LOCK#{name}"})["Item"]
+        return max(int((datetime.fromisoformat(item["expires_at"]) - now).total_seconds()), 1)
