@@ -1,0 +1,9 @@
+{
+  "accepted": true,
+  "retry_after_s": null,
+  "message": {
+    "key": "refresh.accepted",
+    "params": {},
+    "text": "Refresh started. New data in about a minute."
+  }
+}

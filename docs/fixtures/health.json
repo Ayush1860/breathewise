@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-10-10T04:05:00Z",
+  "status": "degraded",
+  "model_version": "lgbm-v1-fixture",
+  "last_forecast_at": "2026-10-10T04:00:00Z",
+  "sources": [
+    {
+      "source": "cpcb",
+      "last_success_at": "2026-10-10T02:00:00Z",
+      "last_failure_at": "2026-10-10T04:00:00Z",
+      "last_error": "HTTPStatusError 503"
+    },
+    {
+      "source": "openaq",
+      "last_success_at": "2026-10-10T04:00:00Z",
+      "last_failure_at": null,
+      "last_error": null
+    },
+    {
+      "source": "cams_model",
+      "last_success_at": "2026-10-10T04:00:00Z",
+      "last_failure_at": null,
+      "last_error": null
+    }
+  ],
+  "stations": [
+    {
+      "station_id": "dl-rohini",
+      "last_observation_at": "2026-10-10T03:00:00Z",
+      "last_source": "openaq"
+    },
+    {
+      "station_id": "dl-anand-vihar",
+      "last_observation_at": "2026-10-10T03:00:00Z",
+      "last_source": "openaq"
+    }
+  ]
+}
