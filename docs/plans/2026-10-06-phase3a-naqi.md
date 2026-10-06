@@ -7,7 +7,7 @@
 ## Breakpoint cross-check (official CPCB NAQI table)
 - Matches the project brief for every pollutant and band.
 - CPCB writes CO "Poor" as `10–17`. With one-decimal rounding this is the same as the brief's `10.1–17`.
-- **Not published:** an upper anchor for Severe. Ruling: upper = Severe lower bound + the width of the Very Poor band, i.e. PM2.5 379, PM10 509, NO2 519, O3 1287, CO 50.9, SO2 2399, NH3 2399. These match the common 380/510 convention for PM. Values beyond the anchor cap at 500.
+- **Not published:** an upper anchor for Severe. Ruling: Severe starts one unit above the Very Poor upper bound, and its width equals the Very Poor band width: PM2.5 251–380, PM10 431–510, NO2 401–520, O3 749–1288, CO 34.1–51.0, SO2 1601–2400, NH3 1801–2400. This reproduces the common 380/510 convention for PM. Values beyond the anchor cap at 500.
 
 ## Interfaces (produced)
 - `BREAKPOINTS: dict[Pollutant, tuple[Breakpoint, ...]]`, where `Breakpoint = (c_lo, c_hi, i_lo, i_hi)`.
