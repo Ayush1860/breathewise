@@ -51,7 +51,9 @@ def test_drivers_sum_to_prediction_minus_baseline(model):
     t = 500
     drivers, expected_value = model.drivers(s, t, horizon=3)
     q50 = model.predict(s, t)[3]["pm25"][1]
-    assert sum(drivers.values()) + expected_value == pytest.approx(q50, abs=0.051)  # q50 rounded to 0.1
+    assert sum(drivers.values()) + expected_value == pytest.approx(
+        q50, abs=0.051
+    )  # q50 rounded to 0.1
     assert set(drivers) == {"ventilation", "recent_buildup", "regional_pollution", "time_of_day"}
 
 
