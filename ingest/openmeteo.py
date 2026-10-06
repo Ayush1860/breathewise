@@ -127,7 +127,9 @@ def parse_cams(payload: Mapping[str, Any]) -> list[CamsHour]:
     ]
 
 
-def _params(lat: float, lon: float, variables: tuple[str, ...], past: int, ahead: int) -> dict:
+def request_params(
+    lat: float, lon: float, variables: tuple[str, ...], past: int, ahead: int
+) -> dict:
     return {
         "latitude": lat,
         "longitude": lon,
@@ -142,11 +144,13 @@ def fetch_weather(
     lat: float, lon: float, *, past_days: int = 1, forecast_days: int = 1, get: Getter = get_json
 ) -> list[WeatherHour]:
     return parse_weather(
-        get(WEATHER_URL, _params(lat, lon, WEATHER_VARS, past_days, forecast_days))
+        get(WEATHER_URL, request_params(lat, lon, WEATHER_VARS, past_days, forecast_days))
     )
 
 
 def fetch_cams(
     lat: float, lon: float, *, past_days: int = 1, forecast_days: int = 1, get: Getter = get_json
 ) -> list[CamsHour]:
-    return parse_cams(get(AIR_QUALITY_URL, _params(lat, lon, CAMS_VARS, past_days, forecast_days)))
+    return parse_cams(
+        get(AIR_QUALITY_URL, request_params(lat, lon, CAMS_VARS, past_days, forecast_days))
+    )

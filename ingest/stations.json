@@ -1,0 +1,29 @@
+[
+  {
+    "station_id": "dl-rohini",
+    "name": "Rohini, Delhi - DPCC",
+    "lat": 28.7325,
+    "lon": 77.1199,
+    "cpcb_name": "Rohini, Delhi - DPCC",
+    "openaq_location_id": null,
+    "is_venue_default": true
+  },
+  {
+    "station_id": "dl-bawana",
+    "name": "Bawana, Delhi - DPCC",
+    "lat": 28.7762,
+    "lon": 77.0511,
+    "cpcb_name": "Bawana, Delhi - DPCC",
+    "openaq_location_id": null,
+    "is_venue_default": false
+  },
+  {
+    "station_id": "dl-anand-vihar",
+    "name": "Anand Vihar, Delhi - DPCC",
+    "lat": 28.6476,
+    "lon": 77.3158,
+    "cpcb_name": "Anand Vihar, Delhi - DPCC",
+    "openaq_location_id": null,
+    "is_venue_default": false
+  }
+]
