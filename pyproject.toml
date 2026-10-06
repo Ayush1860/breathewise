@@ -15,13 +15,15 @@ dev = [
     "black>=24.8",
     "uvicorn>=0.30",
     "httpx2>=2.13.1",
+    "moto[dynamodb,s3,ssm]>=5",
+    "boto3>=1.35",
 ]
 
 [tool.uv]
 package = false
 
 [tool.pytest.ini_options]
-testpaths = ["backend/tests", "ingest/tests"]
+testpaths = ["backend/tests", "ingest/tests", "ml/tests"]
 pythonpath = ["."]
 
 [tool.ruff]
