@@ -1,0 +1,9 @@
+title = "BreatheWise gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Message string keys (e.g. advice.wear_n95) are identifiers, not secrets"
+regexTarget = "line"
+regexes = ['''"key":\s*"[a-z0-9_]+(\.[a-z0-9_]+)+",?\s*$''']
