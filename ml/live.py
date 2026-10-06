@@ -17,6 +17,7 @@ from backend.schemas import (
     ForecastHour,
     ForecastResponse,
     IndexQuantiles,
+    Message,
     Pollutant,
     Quantiles,
     band_for_index,
@@ -101,18 +102,10 @@ def _explanation_key(delta: float, drivers: dict[str, float]) -> str:
     return f"explain.{direction}.{main}"
 
 
-def model_forecast(
-    model: ForecastModel,
-    station_id: str,
-    station_code: int,
-    issued_at: datetime,
-    observations: Sequence[Observation],
-    weather: Sequence[WeatherHour],
-    cams: Sequence[CamsHour],
-) -> ForecastResponse:
-    series, t = build_series(station_code, issued_at, observations, weather, cams)
-    if np.isnan(series.weather_forecast["u"][t + HORIZON]):
-        raise ValueError("live weather forecast does not reach t+12")
+def hours_from_model(
+    model: ForecastModel, series: StationSeries, t: int, issued_at: datetime
+) -> tuple[list[ForecastHour], Message]:
+    """12 forecast hours (bands, drivers, explanations) and the summary message."""
     predictions = model.predict(series, t)
     current = series.pm25[t]
     hours = []
@@ -137,7 +130,24 @@ def model_forecast(
                 explanation=message(_explanation_key(delta, groups), pollutant="PM2.5"),
             )
         )
-    peak = max(hours, key=lambda x: abs(x.pm25.q50 - (current if not np.isnan(current) else 0)))
+    reference = current if not np.isnan(current) else 0.0
+    peak = max(hours, key=lambda x: abs(x.pm25.q50 - reference))
+    return hours, peak.explanation
+
+
+def model_forecast(
+    model: ForecastModel,
+    station_id: str,
+    station_code: int,
+    issued_at: datetime,
+    observations: Sequence[Observation],
+    weather: Sequence[WeatherHour],
+    cams: Sequence[CamsHour],
+) -> ForecastResponse:
+    series, t = build_series(station_code, issued_at, observations, weather, cams)
+    if np.isnan(series.weather_forecast["u"][t + HORIZON]):
+        raise ValueError("live weather forecast does not reach t+12")
+    hours, summary = hours_from_model(model, series, t, issued_at)
     return ForecastResponse(
         generated_at=issued_at,
         station_id=station_id,
@@ -145,6 +155,6 @@ def model_forecast(
         model_version=model.model_version,
         stale=False,
         age_minutes=0,
-        summary=peak.explanation,
+        summary=summary,
         hours=hours,
     )

@@ -105,6 +105,8 @@ def run(
     production.station_codes = codes
     target = out_dir / version
     production.save(target)
+    eval_model.station_codes = codes
+    eval_model.save(target / "eval")  # trained <= TRAIN_END only: used for replay episodes
     (target / "metrics.json").write_text(metrics.model_dump_json(indent=2), encoding="utf-8")
     for m in metrics.pm25:
         print(

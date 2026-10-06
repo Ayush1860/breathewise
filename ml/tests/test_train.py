@@ -40,3 +40,4 @@ def test_run_trains_evaluates_and_saves(tmp_path):
     assert [m.horizon_h for m in metrics.pm25] == [1, 3]
     assert json.loads((target / "manifest.json").read_text())["horizons"] == [1, 3]
     assert ForecastModel.load(target).model_version == metrics.model_version
+    assert ForecastModel.load(target / "eval").station_codes["dl-rohini"] == 0
